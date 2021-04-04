@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookApi.Migrations
 {
-    public partial class AlterBookAddAuthor : Migration
+    public partial class BookAPIMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "author",
+                name: "authors",
                 columns: table => new
                 {
                     id = table.Column<long>(nullable: false)
@@ -17,43 +17,43 @@ namespace BookApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_author", x => x.id);
+                    table.PrimaryKey("PK_authors", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "book",
+                name: "books",
                 columns: table => new
                 {
                     id = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    name = table.Column<string>(nullable: true),
-                    sinopsis = table.Column<string>(nullable: true),
-                    authorid = table.Column<long>(nullable: true)
+                    name = table.Column<string>(type: "varchar(255)", nullable: true),
+                    sinopsis = table.Column<string>(type: "text", nullable: true),
+                    authorid = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_book", x => x.id);
+                    table.PrimaryKey("PK_books", x => x.id);
                     table.ForeignKey(
-                        name: "FK_book_author_authorid",
+                        name: "FK_books_authors_authorid",
                         column: x => x.authorid,
-                        principalTable: "author",
+                        principalTable: "authors",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_book_authorid",
-                table: "book",
+                name: "IX_books_authorid",
+                table: "books",
                 column: "authorid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "book");
+                name: "books");
 
             migrationBuilder.DropTable(
-                name: "author");
+                name: "authors");
         }
     }
 }

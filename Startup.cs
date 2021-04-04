@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using BookApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using dotenv.net;
 
 namespace BookApi
 {
@@ -14,6 +15,7 @@ namespace BookApi
     {
         public Startup(IConfiguration configuration)
         {
+            DotEnv.Load();
             Configuration = configuration;
         }
 
@@ -22,14 +24,16 @@ namespace BookApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BookApiContext>(
+            var env = DotEnv.Read();
+            services.AddDbContext<Context>(
                 dbContextOptions => dbContextOptions
                     .UseMySql(
-                        Configuration.GetConnectionString("DefaultConnection"),
+                        env["CONNECTION_STRING"],
                         mySqlOptions => mySqlOptions
                             .CharSetBehavior(CharSetBehavior.NeverAppend))
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors());
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

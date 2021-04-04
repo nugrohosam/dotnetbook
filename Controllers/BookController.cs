@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using BookApi.Models;
 using BookApi.Requests;
-using System.Diagnostics;
+using BookApi.Requests.Book;
+using BookApi.Responses.Book;
+using BookApi.Applications.Book;
+using System;
 
 namespace BookApi.Controllers
 {
@@ -10,38 +12,47 @@ namespace BookApi.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
+        private BookApplication bookApplication;
+        
+        public BookController() {
+            this.bookApplication = new BookApplication();
+        }
+
         // GET: api/Book
-        [HttpGet]
-        public IEnumerable<string> Get([FromQuery(Name = "search")] string search, [FromQuery(Name = "pagination")] bool pagination)
+        [HttpGet(Name = "GetListBook")]
+        public IEnumerable<string> Get([FromQuery] Query query, [FromHeader] Header header)
         {
-            Debug.WriteLine(search);
-            Debug.WriteLine(pagination);
-            return new string[] { search, (pagination ? "true" : "false") };
+            return new string[] { query.search, header.authorization, header.platform, header.locale };
         }
 
         // GET: api/Book/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetBook")]
+        public BookDetail Get(long id)
         {
-            return "value";
+            var bookRepository = this.bookApplication.DetailById(id);
+            return (new BookDetail()).BindRepo(bookRepository);       
         }
 
         // POST: api/Book
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Consumes("application/json")]
+        public void Post(BookCreate bookCreate)
         {
+            this.bookApplication.CreateFromAPI(bookCreate);
         }
 
         // PUT: api/Book/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(long id, BookCreate bookCreate)
         {
+            this.bookApplication.UpdateFromAPI(id, bookCreate);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IEnumerable<string> Delete(int id)
         {
+            return new string[] { id.ToString() };
         }
     }
 }
