@@ -13,16 +13,17 @@ namespace BookApi.Controllers
     public class AuthorController : ControllerBase
     {
         private AuthorApplication authorApplication;
-        
-        public AuthorController() {
+
+        public AuthorController()
+        {
             this.authorApplication = new AuthorApplication();
         }
 
         // GET: api/Author
         [HttpGet(Name = "GetListAuthor")]
-        public IEnumerable<string> Get([FromQuery] Query query, [FromHeader] Header header)
+        public AuthorList Get([FromQuery] Query query, [FromHeader] Header header)
         {
-            return new string[] { query.search, header.authorization, header.platform, header.locale };
+            return (new AuthorList());
         }
 
         // GET: api/Author/5
@@ -30,6 +31,10 @@ namespace BookApi.Controllers
         public AuthorDetail Get(long id)
         {
             var authorRepository = this.authorApplication.DetailById(id);
+            if (authorRepository.Id == 0){
+                return null;
+            }
+            
             return (new AuthorDetail()).BindRepo(authorRepository);
         }
 

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BookApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using dotenv.net;
+using System.Collections.Generic;
 
 namespace BookApi
 {
@@ -24,7 +25,7 @@ namespace BookApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var env = DotEnv.Read();
+            IDictionary<string, string> env = DotEnv.Read();
             services.AddDbContext<Context>(
                 dbContextOptions => dbContextOptions
                     .UseMySql(

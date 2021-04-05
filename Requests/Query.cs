@@ -5,15 +5,15 @@ namespace BookApi.Requests
     public class Query
     {
         [FromQuery(Name = "search")]
-        public string search { get; set; }
+        public string Search { get; set; }
 
         [FromQuery(Name = "pagination")]
         public bool pagination { get; set; }
 
         [FromQuery(Name = "page")]
-        public int page { get; set; }
+        public int Page { get; set; }
 
         [FromQuery(Name = "limit")]
-        public int limit { get; set; }
+        public int Limit { get; set; }
     }
 }

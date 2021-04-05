@@ -1,25 +1,46 @@
 using BookApi.Repositories.Author;
+using BookApi.Responses.Book;
 using Models = BookApi.Models;
+using System.Collections.Generic;
 
 namespace BookApi.Responses.Author
 {
-    public class AuthorDetail {
-        
-        public long Id { get; set; }
-        public string Name { get; set; }
+    public class AuthorDetail
+    {
 
-        public AuthorDetail BindRepo(AuthorRepository authorRepository) {
-            this.Id = authorRepository.Id;
-            this.Name = authorRepository.Name;
+        public long id { get; set; }
+        public string name { get; set; }
+        public List<BookItem> books { get; set; }
 
+        public AuthorDetail BindRepo(AuthorRepository authorRepository)
+        {
+            this.id = authorRepository.Id;
+            this.name = authorRepository.Name;
+            if (authorRepository.Books != null){
+                this.books = (new BookItem()).MapRepo(authorRepository.Books);
+            }
+            
             return this;
         }
+    }
+    public class AuthorItem
+    {
 
-        public AuthorDetail BindModel(Models.Author Author) {
-            this.Id = Author.Id;
-            this.Name = Author.Name;
+        public long id { get; set; }
+        public string name { get; set; }
 
+        public AuthorItem BindRepo(AuthorRepository authorRepository)
+        {
+            this.id = authorRepository.Id;
+            this.name = authorRepository.Name;
             return this;
         }
+    }
+
+    public class AuthorList
+    {
+
+        public List<AuthorDetail> data { get; set; }
+        public string count { get; set; }
     }
 }

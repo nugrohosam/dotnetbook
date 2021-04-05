@@ -1,10 +1,23 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace BookApi.Models
 {
     [Table("books")]
     public class Book
     {
+
+        private readonly ILazyLoader lazyLoader;
+
+        public Book()
+        {
+        }
+
+        public Book(ILazyLoader lazyLoader)
+        {
+            this.lazyLoader = lazyLoader;
+        }
+
         [Column("id")]
         public long Id { get; set; }
         [Column("name", TypeName = "varchar(255)")]
@@ -14,6 +27,13 @@ namespace BookApi.Models
 
         [Column("authorid")]
         public long AuthorId { get; set; }
-        public Author Author { get; set; }
+        [ForeignKey(nameof(AuthorId))]
+
+        private Author author;
+        public Author Author
+        {
+            get => lazyLoader.Load(this, ref author);
+            set => author = value;
+        }
     }
 }

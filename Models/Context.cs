@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using dotenv.net;
-
+using System.Collections.Generic;
 namespace BookApi.Models
 {
     public partial class Context : DbContext
@@ -20,18 +20,20 @@ namespace BookApi.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
+
             if (!optionsBuilder.IsConfigured)
             {
-                var env = DotEnv.Read();
+                IDictionary<string, string> env = DotEnv.Read();
                 optionsBuilder
                     .UseMySql(env["CONNECTION_STRING"]);
             }
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Author>()
+                .HasMany(a => a.Books);
             OnModelCreatingPartial(modelBuilder);
         }
 

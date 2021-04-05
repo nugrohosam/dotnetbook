@@ -5,12 +5,12 @@ namespace BookApi.Requests
     public class Header
     {
         [FromHeader(Name = "Authorization")]
-        public string authorization { get; set; }
+        public string Authorization { get; set; }
 
         [FromHeader(Name = "Locale")]
-        public string locale { get; set; }
+        public string Locale { get; set; }
 
         [FromHeader(Name = "Platform")]
-        public string platform { get; set; }
+        public string Platform { get; set; }
     }
 }

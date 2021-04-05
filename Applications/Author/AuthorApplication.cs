@@ -17,24 +17,19 @@ namespace BookApi.Applications.Author
         public void CreateFromAPI(AuthorCreate authorCreate)
         {
             AuthorRepository authorRepository = new AuthorRepository();
-
             authorRepository.Name = authorCreate.Name;
-
             this.authorStoreRepository.Create(authorRepository);
         }
 
         public AuthorRepository DetailById(long id)
         {
-            AuthorRepository authorRepository = this.authorQueryRepository.FindById(id);
-            return authorRepository;
+            return this.authorQueryRepository.FindById(id);
         }
 
         public void UpdateFromAPI(long id, AuthorCreate authorCreate)
         {
             AuthorRepository authorRepository = new AuthorRepository();
-
             authorRepository.Name = authorCreate.Name;
-
             this.authorStoreRepository.Update(id, authorRepository);
         }
     }

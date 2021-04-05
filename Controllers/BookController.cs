@@ -20,9 +20,10 @@ namespace BookApi.Controllers
 
         // GET: api/Book
         [HttpGet(Name = "GetListBook")]
-        public IEnumerable<string> Get([FromQuery] Query query, [FromHeader] Header header)
+        public BookList Get([FromQuery] Query query, [FromHeader] Header header)
         {
-            return new string[] { query.search, header.authorization, header.platform, header.locale };
+            // var bookRepository = this.bookApplication.DetailById();
+            return (new BookList());
         }
 
         // GET: api/Book/5
@@ -30,6 +31,10 @@ namespace BookApi.Controllers
         public BookDetail Get(long id)
         {
             var bookRepository = this.bookApplication.DetailById(id);
+            if (bookRepository.Id == 0){
+                return null;
+            }
+
             return (new BookDetail()).BindRepo(bookRepository);       
         }
 

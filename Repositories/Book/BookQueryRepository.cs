@@ -1,7 +1,7 @@
-using Models = BookApi.Models;
 using System.Linq;
-using System.Data.Entity; 
-using System; 
+using System.Data.Entity;
+using System;
+using System.Collections.Generic;
 
 namespace BookApi.Repositories.Book
 {
@@ -12,26 +12,35 @@ namespace BookApi.Repositories.Book
 
         public BookQueryRepository()
         {
-            this.context = new Models.Context(); 
+            this.context = new Models.Context();
             this.bookRepository = new BookRepository();
         }
 
         internal Models.Book Find(long id = 0)
         {
-            return this.context.Books.Include(Book => Book.Author).Where(Book => Book.Id == id).First();
+            return this.context.Books.Include(book => book.Author).Where(book => book.Id == id).FirstOrDefault<Models.Book>();
         }
 
         public BookRepository FindById(long id = 0)
         {
-            Models.Book Book = this.Find(id);
-            
-            this.bookRepository.Id = Book.Id;
-            this.bookRepository.Name = Book.Name;
-            this.bookRepository.Sinopsis = Book.Sinopsis;
-            this.bookRepository.AuthorId = Book.AuthorId;
-            this.bookRepository.Author = Book.Author;
+            Models.Book book = this.Find(id);
+            if (book == null){
+                return (new BookRepository());
+            }
 
+            this.bookRepository.Id = book.Id;
+            this.bookRepository.Name = book.Name;
+            this.bookRepository.Sinopsis = book.Sinopsis;
+            this.bookRepository.AuthorId = book.AuthorId;
+            this.bookRepository.MapToAuthorRepo(book.Author);
+            
             return this.bookRepository;
+        }
+
+        public List<BookRepository> Get(string search = "", bool pagination = false, int page = 1, int limit = 15)
+        {
+            // var books = this.context.Books.Where(Book => Book.Name.Contains(search)).ToList();
+            return (new List<BookRepository>());
         }
     }
 }
