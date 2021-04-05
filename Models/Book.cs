@@ -32,7 +32,7 @@ namespace BookApi.Models
         private Author author;
         public Author Author
         {
-            get => lazyLoader.Load(this, ref author);
+            get => this.lazyLoader.Load(this, ref author);
             set => author = value;
         }
     }

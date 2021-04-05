@@ -26,7 +26,7 @@ namespace BookApi.Models
         private List<Book> books;
         public List<Book> Books
         {
-            get => lazyLoader.Load(this, ref books);
+            get => this.lazyLoader.Load(this, ref books);
             set => books = value;
         }
     }
