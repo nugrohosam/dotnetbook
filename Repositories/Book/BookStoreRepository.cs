@@ -1,6 +1,5 @@
-using Models = BookApi.Models;
 using System.Linq;
-using System;
+using System.Data.Entity;
 
 namespace BookApi.Repositories.Book
 {
@@ -22,6 +21,7 @@ namespace BookApi.Repositories.Book
 
             newBook.Name = bookRepository.Name;
             newBook.Sinopsis = bookRepository.Sinopsis;
+            newBook.AuthorId = bookRepository.AuthorId;
 
             this.save(newBook);
         }
@@ -33,12 +33,21 @@ namespace BookApi.Repositories.Book
             oldBook.Name = bookRepository.Name;
             oldBook.Sinopsis = bookRepository.Sinopsis;
 
-            this.save(oldBook);
+            this.save(oldBook, true);
         }
 
-        private void save(Models.Book Book)
+        public void Delete(long id)
         {
-            this.context.Books.Add(Book);
+            Models.Book book = this.context.Books.Where(book => book.Id == id).FirstOrDefault();
+            this.context.Books.Remove(book);
+            this.context.SaveChanges();
+        }
+
+        private void save(Models.Book Book, bool isUpdate = false)
+        {
+            if (!isUpdate){
+                this.context.Books.Add(Book);
+            }
             this.context.SaveChanges();
         }
     }

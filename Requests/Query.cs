@@ -8,12 +8,12 @@ namespace BookApi.Requests
         public string Search { get; set; }
 
         [FromQuery(Name = "pagination")]
-        public bool pagination { get; set; }
+        public bool Pagination { get; set; }
+
+        [FromQuery(Name = "per_page")]
+        public int PerPage { get; set; }
 
         [FromQuery(Name = "page")]
         public int Page { get; set; }
-
-        [FromQuery(Name = "limit")]
-        public int Limit { get; set; }
     }
 }

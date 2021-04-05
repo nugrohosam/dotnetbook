@@ -24,7 +24,8 @@ namespace BookApi.Repositories.Book
         public BookRepository FindById(long id = 0)
         {
             Models.Book book = this.Find(id);
-            if (book == null){
+            if (book == null)
+            {
                 return (new BookRepository());
             }
 
@@ -33,14 +34,15 @@ namespace BookApi.Repositories.Book
             this.bookRepository.Sinopsis = book.Sinopsis;
             this.bookRepository.AuthorId = book.AuthorId;
             this.bookRepository.MapToAuthorRepo(book.Author);
-            
+
             return this.bookRepository;
         }
 
-        public List<BookRepository> Get(string search = "", bool pagination = false, int page = 1, int limit = 15)
+        public List<BookRepository> GetPaginate(string search, int page, int limit)
         {
-            // var books = this.context.Books.Where(Book => Book.Name.Contains(search)).ToList();
-            return (new List<BookRepository>());
+            int skip = (1 - page) * limit;
+            List<Models.Book> books = this.context.Books.Where(Book => Book.Name.Contains(search)).ToList(); // Skip(skip).Take(limit).ToList();
+            return this.bookRepository.MapFromModel(books);
         }
     }
 }

@@ -10,14 +10,14 @@ namespace BookApi.Responses.Book
         public string name { get; set; }
         public string sinopsis { get; set; }
 
-        public long author_id { get; set; }
+        public long authorid { get; set; }
         public AuthorItem author { get; set; }
 
         public BookDetail BindRepo(BookRepository bookRepository) {
             this.id = bookRepository.Id;
             this.name = bookRepository.Name;
             this.sinopsis = bookRepository.Sinopsis;
-            this.author_id = bookRepository.AuthorId;
+            this.authorid = bookRepository.AuthorId;
             this.author = (new AuthorItem()).BindRepo(bookRepository.Author);
 
             return this;
@@ -28,13 +28,13 @@ namespace BookApi.Responses.Book
         public long id { get; set; }
         public string name { get; set; }
         public string sinopsis { get; set; }
-        public long author_id { get; set; }
+        public long authorid { get; set; }
         
         public BookItem BindRepo(BookRepository bookRepository) {
             this.id = bookRepository.Id;
             this.name = bookRepository.Name;
             this.sinopsis = bookRepository.Sinopsis;
-            this.author_id = bookRepository.AuthorId;
+            this.authorid = bookRepository.AuthorId;
             return this;
         }
         
@@ -54,7 +54,6 @@ namespace BookApi.Responses.Book
     }
 
     public class BookList {
-        
         public List<BookItem> data { get; set; }
         public string count { get; set; }
     }
