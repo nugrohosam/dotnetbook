@@ -41,7 +41,14 @@ namespace BookApi.Repositories.Book
         public List<BookRepository> GetPaginate(string search, int page, int limit)
         {
             int skip = (1 - page) * limit;
-            List<Models.Book> books = this.context.Books.Where(Book => Book.Name.Contains(search)).ToList(); // Skip(skip).Take(limit).ToList();
+            List<Models.Book> books = this.context.Books.Where(Book => Book.Name.Contains(search)).Skip(skip).Take(limit).ToList();
+            return this.bookRepository.MapFromModel(books);
+        }
+
+        public List<BookRepository> Get(string search, int page, int limit)
+        {
+            int skip = (1 - page) * limit;
+            List<Models.Book> books = this.context.Books.Where(Book => Book.Name.Contains(search)).ToList();
             return this.bookRepository.MapFromModel(books);
         }
     }

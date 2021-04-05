@@ -1,6 +1,5 @@
 using BookApi.Repositories.Author;
 using BookApi.Responses.Book;
-using Models = BookApi.Models;
 using System.Collections.Generic;
 
 namespace BookApi.Responses.Author
@@ -16,10 +15,11 @@ namespace BookApi.Responses.Author
         {
             this.id = authorRepository.Id;
             this.name = authorRepository.Name;
-            if (authorRepository.Books != null){
+            if (authorRepository.Books != null)
+            {
                 this.books = (new BookItem()).MapRepo(authorRepository.Books);
             }
-            
+
             return this;
         }
     }
@@ -34,6 +34,21 @@ namespace BookApi.Responses.Author
             this.id = authorRepository.Id;
             this.name = authorRepository.Name;
             return this;
+        }
+        public List<AuthorItem> MapRepo(List<AuthorRepository> bookRepositories)
+        {
+            List<AuthorItem> books = new List<AuthorItem>();
+            if (bookRepositories == null)
+            {
+                return (new List<AuthorItem>());
+            }
+
+            foreach (AuthorRepository book in bookRepositories)
+            {
+                books.Add(this.BindRepo(book));
+            }
+
+            return books;
         }
     }
 

@@ -25,6 +25,11 @@ namespace BookApi.Applications.Book
             return this.bookQueryRepository.GetPaginate(search, perPage, page);
         }
 
+        public List<BookRepository> GetList(string search, int perPage, int page)
+        {
+            return this.bookQueryRepository.Get(search, perPage, page);
+        }
+
         public void CreateFromAPI(BookCreate bookCreate)
         {
             BookRepository bookRepository = new BookRepository();

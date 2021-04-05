@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using BookApi.Requests;
 using BookApi.Requests.Author;
+using BookApi.Responses;
 using BookApi.Responses.Author;
 using BookApi.Applications.Author;
 using System;
+using System.Net;
 
 namespace BookApi.Controllers
 {
@@ -21,9 +23,26 @@ namespace BookApi.Controllers
 
         // GET: api/Author
         [HttpGet(Name = "GetListAuthor")]
-        public AuthorList Get([FromQuery] Query query, [FromHeader] Header header)
+        public ApiResponse Get([FromQuery] Query query, [FromHeader] Header header)
         {
-            return (new AuthorList());
+            if (query.Pagination)
+            {
+                var authorsRepo = this.authorApplication.PaginateData(query.Search, query.Page, query.PerPage);
+                PaginationModel paginate = (new PaginationModel()
+                {
+                    Page = query.Page,
+                    PerPage = query.PerPage,
+                    Data = (new AuthorItem()).MapRepo(authorsRepo),
+                    Total = authorsRepo.Count
+                });
+
+                return (new ApiResponsePagination(HttpStatusCode.OK, paginate));
+            }
+            else
+            {
+                var authorsRepo = this.authorApplication.GetList(query.Search, query.Page, query.PerPage);
+                return (new ApiResponseDataList(HttpStatusCode.OK, authorsRepo, authorsRepo.Count));
+            }
         }
 
         // GET: api/Author/5
@@ -55,9 +74,10 @@ namespace BookApi.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IEnumerable<string> Delete(int id)
+        public ApiResponse Delete(int id)
         {
-            return new string[] { id.ToString() };
+            this.authorApplication.DeleteFromAPI(id);
+            return (new ApiResponseData(HttpStatusCode.OK, null));
         }
     }
 }

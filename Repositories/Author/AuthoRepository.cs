@@ -26,5 +26,24 @@ namespace BookApi.Repositories.Author
                 this.Books.Add(bookRepo);
             }
         }
+        public List<AuthorRepository> MapFromModel(List<Models.Author> authors)
+        {
+            if (authors == null)
+            {
+                return (new List<AuthorRepository>());
+            }
+
+            List<AuthorRepository> authorsRepo = new List<AuthorRepository>();
+            foreach (Models.Author author in authors)
+            {
+                authorsRepo.Add((new AuthorRepository()
+                {
+                    Id = author.Id,
+                    Name = author.Name
+                }));
+            }
+
+            return authorsRepo;
+        }
     }
 }

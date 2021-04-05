@@ -27,20 +27,22 @@ namespace BookApi.Controllers
         {
             if (query.Pagination)
             {
-
                 var booksRepo = this.bookApplication.PaginateData(query.Search, query.Page, query.PerPage);
                 PaginationModel paginate = (new PaginationModel()
                 {
                     Page = query.Page,
                     PerPage = query.PerPage,
-                    Data = booksRepo,
+                    Data = (new BookItem()).MapRepo(booksRepo),
                     Total = booksRepo.Count
                 });
-                
+
                 return (new ApiResponsePagination(HttpStatusCode.OK, paginate));
             }
-
-            return (new ApiResponseData(HttpStatusCode.OK, null));
+            else
+            {
+                var booksRepo = this.bookApplication.GetList(query.Search, query.Page, query.PerPage);
+                return (new ApiResponseDataList(HttpStatusCode.OK, booksRepo, booksRepo.Count));
+            }
         }
 
         // GET: api/Book/5

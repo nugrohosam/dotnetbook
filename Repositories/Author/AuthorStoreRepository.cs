@@ -1,4 +1,5 @@
 using Models = BookApi.Models;
+using System.Linq;
 
 namespace BookApi.Repositories.Author
 {
@@ -27,6 +28,13 @@ namespace BookApi.Repositories.Author
             Models.Author oldAuthor = this.authorQueryRepository.Find(id);
             oldAuthor.Name = authorRepository.Name;
             this.save(oldAuthor);
+        }
+
+        public void Delete(long id)
+        {
+            Models.Author author = this.context.Authors.Where(author => author.Id == id).FirstOrDefault();
+            this.context.Authors.Remove(author);
+            this.context.SaveChanges();
         }
 
         private void save(Models.Author Author)

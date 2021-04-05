@@ -50,7 +50,6 @@ namespace BookApi.Responses.Book
 
             return books;
         }
-
     }
 
     public class BookList {

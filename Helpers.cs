@@ -30,15 +30,15 @@ namespace BookApi
         public int status_code { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public List<object> items { get; set; }
+        public object items { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
         public int count { get; set; }
-        public ApiResponseDataList(HttpStatusCode statusCode, List<object> items = null)
+        public ApiResponseDataList(HttpStatusCode statusCode, object items, int count)
         {
             this.status_code = (int)statusCode;
             this.items = items;
-            this.count = items.Count;
+            this.count = count;
         }
     }
     public class ApiResponsePagination : ApiResponse
