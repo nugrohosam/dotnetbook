@@ -6,7 +6,6 @@ namespace BookApi.Responses.Author
 {
     public class AuthorDetail
     {
-
         public long id { get; set; }
         public string name { get; set; }
         public List<BookItem> books { get; set; }

@@ -8,7 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using BookApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using dotenv.net;
+using BookApi.Responses;
 using System.Collections.Generic;
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi
 {
@@ -34,7 +37,15 @@ namespace BookApi
                             .CharSetBehavior(CharSetBehavior.NeverAppend))
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors());
-            services.AddControllers();
+
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    ApiResponseValidationError responseError = new ApiResponseValidationError(HttpStatusCode.BadRequest, ErrorValidation.Error(actionContext), "Validation Error");
+                    return (new ObjectResult(responseError));
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

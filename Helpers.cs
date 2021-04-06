@@ -2,6 +2,7 @@ using System.Net;
 using System.Collections.Generic;
 using BookApi.Responses;
 using System.Runtime.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi
 {
@@ -20,7 +21,7 @@ namespace BookApi
         public object data { get; set; }
         public ApiResponseData(HttpStatusCode statusCode, object data = null)
         {
-            this.status_code = (int) statusCode;
+            this.status_code = (int)statusCode;
             this.data = data;
         }
     }
@@ -71,8 +72,11 @@ namespace BookApi
         [DataMember(EmitDefaultValue = false)]
         public string error_message { get; set; }
 
+        [DataMember]
+        public int status_code { get; set; }
         public ApiResponseError(HttpStatusCode statusCode, string errorMessage)
         {
+            this.status_code = (int)statusCode;
             this.error_message = errorMessage;
         }
     }
@@ -81,9 +85,16 @@ namespace BookApi
         [DataMember(EmitDefaultValue = false)]
         public object errors { get; set; }
 
-        public ApiResponseValidationError(HttpStatusCode statusCode, object errors)
+        [DataMember]
+        public int status_code { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string error_message { get; set; }
+        public ApiResponseValidationError(HttpStatusCode statusCode, object errors, string errorMessage)
         {
+            this.status_code = (int)statusCode;
             this.errors = errors;
+            this.error_message = errorMessage;
         }
     }
 
