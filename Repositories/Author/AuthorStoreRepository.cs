@@ -33,7 +33,7 @@ namespace BookApi.Repositories.Author
             }
 
             oldAuthor.Name = authorRepository.Name;
-            this.save(oldAuthor);
+            this.save(oldAuthor, true);
         }
 
         public void Delete(long id)
