@@ -1,17 +1,18 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using BookApi.Requests;
 using BookApi.Requests.Book;
+using BookApi.Middlewares;
 using BookApi.Responses;
 using BookApi.Responses.Book;
-using BookApi;
 using BookApi.Applications.Book;
 using System.Net;
+using System;
 
 namespace BookApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [MiddlewareFilter(typeof(Middlewares.Authorization))]
     public class BookController : ControllerBase
     {
         private BookApplication bookApplication;
@@ -23,7 +24,7 @@ namespace BookApi.Controllers
 
         // GET: api/Book
         [HttpGet(Name = "GetListBook")]
-        public ApiResponse Get([FromQuery] Query query, [FromHeader] Header header)
+        public ApiResponse Index([FromQuery] Query query, [FromHeader] Header header)
         {
             if (query.Pagination)
             {
@@ -47,7 +48,7 @@ namespace BookApi.Controllers
 
         // GET: api/Book/5
         [HttpGet("{id}", Name = "GetBook")]
-        public ApiResponse Get(long id)
+        public ApiResponse Show(long id)
         {
             var bookRepository = this.bookApplication.DetailById(id);
             if (bookRepository.Id == 0)
@@ -62,7 +63,7 @@ namespace BookApi.Controllers
         // POST: api/Book
         [HttpPost]
         [Consumes("application/json")]
-        public ApiResponse Post(BookCreate bookCreate)
+        public ApiResponse Store(BookCreate bookCreate)
         {
             this.bookApplication.CreateFromAPI(bookCreate);
             return (new ApiResponseData(HttpStatusCode.OK, null));
@@ -70,7 +71,7 @@ namespace BookApi.Controllers
 
         // PUT: api/Book/5
         [HttpPut("{id}")]
-        public ApiResponse Put(long id, BookCreate bookCreate)
+        public ApiResponse Update(long id, BookCreate bookCreate)
         {
             this.bookApplication.UpdateFromAPI(id, bookCreate);
             return (new ApiResponseData(HttpStatusCode.OK, null));

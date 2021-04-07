@@ -6,6 +6,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi
 {
+    public class Utility
+    {
+        public static List<IDictionary<string, string>> CreateSingleValidation(string key, string field)
+        {
+            IDictionary<string, string> validation = new Dictionary<string, string>();
+            validation.Add("key", key);
+            validation.Add("field", field);
+
+            List<IDictionary<string, string>> validations = new List<IDictionary<string, string>>();
+            validations.Add(validation);
+
+            return validations;
+        }
+        public static List<IDictionary<string, string>> CreateValidation(string key, string field)
+        {
+            IDictionary<string, string> validation = new Dictionary<string, string>();
+            validation.Add("key", key);
+            validation.Add("field", field);
+
+            List<IDictionary<string, string>> validations = new List<IDictionary<string, string>>();
+            validations.Add(validation);
+
+            return validations;
+        }
+    }
     [DataContract]
     public abstract class ApiResponse
     {
@@ -90,7 +115,7 @@ namespace BookApi
 
         [DataMember(EmitDefaultValue = false)]
         public string error_message { get; set; }
-        public ApiResponseValidationError(HttpStatusCode statusCode, object errors, string errorMessage)
+        public ApiResponseValidationError(HttpStatusCode statusCode, object errors, string errorMessage = "Validation Message")
         {
             this.status_code = (int)statusCode;
             this.errors = errors;

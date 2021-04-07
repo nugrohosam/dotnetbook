@@ -9,6 +9,7 @@ using BookApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using dotenv.net;
 using BookApi.Responses;
+using Middlewares = BookApi.Middlewares;
 using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
@@ -56,11 +57,21 @@ namespace BookApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseExceptionHandler("/error");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseRequestLocalization();
+
+            app.UseCors();
+
+            // app.UseResponseCompression();
+
+            app.UseResponseCaching();
+
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

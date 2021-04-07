@@ -12,6 +12,7 @@ namespace BookApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [MiddlewareFilter(typeof(Middlewares.Authorization))]
     public class AuthorController : ControllerBase
     {
         private AuthorApplication authorApplication;
@@ -23,7 +24,7 @@ namespace BookApi.Controllers
 
         // GET: api/Author
         [HttpGet(Name = "GetListAuthor")]
-        public ApiResponse Get([FromQuery] Query query, [FromHeader] Header header)
+        public ApiResponse Index([FromQuery] Query query, [FromHeader] Header header)
         {
             if (query.Pagination)
             {
@@ -47,27 +48,29 @@ namespace BookApi.Controllers
 
         // GET: api/Author/5
         [HttpGet("{id}", Name = "GetAuthor")]
-        public AuthorDetail Get(long id)
+        public AuthorDetail Show(long id)
         {
             var authorRepository = this.authorApplication.DetailById(id);
-            if (authorRepository.Id == 0){
+            if (authorRepository.Id == 0)
+            {
                 return null;
             }
-            
+
             return (new AuthorDetail()).BindRepo(authorRepository);
         }
 
         // POST: api/Author
         [HttpPost]
         [Consumes("application/json")]
-        public void Post(AuthorCreate authorCreate)
+
+        public void Store(AuthorCreate authorCreate)
         {
             this.authorApplication.CreateFromAPI(authorCreate);
         }
 
         // PUT: api/Author/5
         [HttpPut("{id}")]
-        public void Put(long id, AuthorCreate authorCreate)
+        public void Update(long id, AuthorCreate authorCreate)
         {
             this.authorApplication.UpdateFromAPI(id, authorCreate);
         }

@@ -1,5 +1,8 @@
 using System.Linq;
-using System.Data.Entity;
+using System.Collections.Generic;
+using BookApi.Repositories.Author;
+using BookApi.Exceptions;
+using System.Text.Json;
 
 namespace BookApi.Repositories.Book
 {
@@ -8,15 +11,18 @@ namespace BookApi.Repositories.Book
     {
         Models.Context context;
         BookQueryRepository bookQueryRepository;
+        AuthorQueryRepository authorQueryRepository;
 
         public BookStoreRepository()
         {
+            this.authorQueryRepository = new AuthorQueryRepository();
             this.context = new Models.Context();
             this.bookQueryRepository = new BookQueryRepository();
         }
 
         public void Create(BookRepository bookRepository)
         {
+            this.validationData(bookRepository);
             Models.Book newBook = new Models.Book();
 
             newBook.Name = bookRepository.Name;
@@ -28,11 +34,13 @@ namespace BookApi.Repositories.Book
 
         public void Update(long id, BookRepository bookRepository)
         {
+            this.validationData(bookRepository);
             Models.Book oldBook = this.bookQueryRepository.Find(id);
 
             oldBook.Name = bookRepository.Name;
             oldBook.Sinopsis = bookRepository.Sinopsis;
-
+            oldBook.AuthorId = bookRepository.AuthorId;
+            
             this.save(oldBook, true);
         }
 
@@ -45,10 +53,24 @@ namespace BookApi.Repositories.Book
 
         private void save(Models.Book Book, bool isUpdate = false)
         {
-            if (!isUpdate){
+            if (!isUpdate)
+            {
                 this.context.Books.Add(Book);
             }
             this.context.SaveChanges();
+        }
+
+        private void validationData(BookRepository bookRepository)
+        {
+            List<IDictionary<string, string>> validation = new List<IDictionary<string, string>>();
+
+            AuthorRepository authorRepository = this.authorQueryRepository.FindById(bookRepository.AuthorId);
+            if (authorRepository.Id < 1)
+            {
+                validation = Utility.CreateSingleValidation("authorid", "Not Exist");
+                throw (new DataException(JsonSerializer.Serialize(validation)));
+            }
+
         }
     }
 }
