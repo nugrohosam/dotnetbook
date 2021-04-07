@@ -36,11 +36,15 @@ namespace BookApi.Repositories.Book
         {
             this.validationData(bookRepository);
             Models.Book oldBook = this.bookQueryRepository.Find(id);
+            if (oldBook == null)
+            {
+                return;
+            }
 
             oldBook.Name = bookRepository.Name;
             oldBook.Sinopsis = bookRepository.Sinopsis;
             oldBook.AuthorId = bookRepository.AuthorId;
-            
+
             this.save(oldBook, true);
         }
 

@@ -1,5 +1,6 @@
 using Models = BookApi.Models;
 using System.Linq;
+using System;
 
 namespace BookApi.Repositories.Author
 {
@@ -26,6 +27,11 @@ namespace BookApi.Repositories.Author
         public void Update(long id, AuthorRepository authorRepository)
         {
             Models.Author oldAuthor = this.authorQueryRepository.Find(id);
+            if (oldAuthor == null)
+            {
+                return;
+            }
+
             oldAuthor.Name = authorRepository.Name;
             this.save(oldAuthor);
         }
@@ -37,9 +43,12 @@ namespace BookApi.Repositories.Author
             this.context.SaveChanges();
         }
 
-        private void save(Models.Author Author)
+        private void save(Models.Author Author, bool isUpdate = false)
         {
-            this.context.Authors.Add(Author);
+            if (isUpdate)
+            {
+                this.context.Authors.Add(Author);
+            }
             this.context.SaveChanges();
         }
     }

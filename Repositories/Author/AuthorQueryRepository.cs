@@ -19,7 +19,7 @@ namespace BookApi.Repositories.Author
 
         internal Models.Author Find(long id = 0)
         {
-            return this.context.Authors.Include(author => author.Books).Where(Author => Author.Id == id).FirstOrDefault();
+            return this.context.Authors.Include(author => author.Books).Where(author => author.Id == id).FirstOrDefault();
         }
 
         public AuthorRepository FindById(long id = 0)
