@@ -4,4 +4,8 @@ namespace BookApi.Requests.Author
     {
         public string Name { get; set; }
     }
+    public class AuthorUpdate
+    {
+        public string Name { get; set; }
+    }
 }

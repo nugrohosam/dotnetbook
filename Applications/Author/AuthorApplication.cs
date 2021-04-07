@@ -37,10 +37,10 @@ namespace BookApi.Applications.Author
             return this.authorQueryRepository.Get(search, perPage, page);
         }
 
-        public void UpdateFromAPI(long id, AuthorCreate authorCreate)
+        public void UpdateFromAPI(long id, AuthorUpdate authorUpdate)
         {
             AuthorRepository authorRepository = new AuthorRepository();
-            authorRepository.Name = authorCreate.Name;
+            authorRepository.Name = authorUpdate.Name;
             this.authorStoreRepository.Update(id, authorRepository);
         }
 

@@ -40,12 +40,12 @@ namespace BookApi.Applications.Book
 
             this.bookStoreRepository.Create(bookRepository);
         }
-        public void UpdateFromAPI(long id, BookCreate bookCreate)
+        public void UpdateFromAPI(long id, BookUpdate bookUpdate)
         {
             BookRepository bookRepository = new BookRepository();
 
-            bookRepository.Name = bookCreate.Name;
-            bookRepository.Sinopsis = bookCreate.Sinopsis;
+            bookRepository.Name = bookUpdate.Name;
+            bookRepository.Sinopsis = bookUpdate.Sinopsis;
 
             this.bookStoreRepository.Update(id, bookRepository);
         }

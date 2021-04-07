@@ -70,9 +70,9 @@ namespace BookApi.Controllers
 
         // PUT: api/Author/5
         [HttpPut("{id}")]
-        public void Update(long id, AuthorCreate authorCreate)
+        public void Update(long id, AuthorUpdate authorUpdate)
         {
-            this.authorApplication.UpdateFromAPI(id, authorCreate);
+            this.authorApplication.UpdateFromAPI(id, authorUpdate);
         }
 
         // DELETE: api/ApiWithActions/5

@@ -71,9 +71,9 @@ namespace BookApi.Controllers
 
         // PUT: api/Book/5
         [HttpPut("{id}")]
-        public ApiResponse Update(long id, BookCreate bookCreate)
+        public ApiResponse Update(long id, BookUpdate bookUpdate)
         {
-            this.bookApplication.UpdateFromAPI(id, bookCreate);
+            this.bookApplication.UpdateFromAPI(id, bookUpdate);
             return (new ApiResponseData(HttpStatusCode.OK, null));
         }
 
