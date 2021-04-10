@@ -8,6 +8,7 @@ using BookApi.Responses;
 using BookApi.Responses.Book;
 using BookApi.Applications.Book;
 using System.Net;
+using System;
 
 namespace BookApi.Controllers
 {
@@ -66,6 +67,7 @@ namespace BookApi.Controllers
         [Consumes("application/json")]
         public ApiResponse Store(BookCreate bookCreate)
         {
+            Console.WriteLine(bookCreate.YearPublished);
             this.bookApplication.CreateFromAPI(bookCreate);
             return (new ApiResponseData(HttpStatusCode.OK, null));
         }

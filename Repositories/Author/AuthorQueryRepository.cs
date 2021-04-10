@@ -45,8 +45,7 @@ namespace BookApi.Repositories.Author
             {
                 authorQuery = authorQuery.Where(author => author.Name.Contains(search));
             }
-
-            authors = authorQuery.Skip(skip).Take(perPage).ToList<Models.Author>();
+            authors = authorQuery.Skip(skip).Take(perPage).ToList();
             return this.authorRepository.MapFromModel(authors);
         }
     }

@@ -4,10 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BookApi.Responses;
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
-using Microsoft.AspNetCore.ResponseCompression;
 
 namespace BookApi
 {
@@ -36,7 +36,6 @@ namespace BookApi
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
                     {
-
                         ApiResponse apiResponseError = new ApiResponseValidationError(HttpStatusCode.BadRequest, ErrorValidation.Error(actionContext), "Validation Error");
                         return (new ObjectResult(apiResponseError));
                     };

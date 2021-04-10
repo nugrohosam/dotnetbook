@@ -46,7 +46,7 @@ namespace BookApi.Repositories.Book
             IQueryable<Models.Book> bookQuery = this.context.Books;
             if (search != null)
             {
-                bookQuery = bookQuery.Where(Book => Book.Name.Contains(search));
+                bookQuery = bookQuery.Where(book => book.Name.Contains(search));
             }
 
             books = bookQuery.Skip(skip).Take(perPage).ToList();

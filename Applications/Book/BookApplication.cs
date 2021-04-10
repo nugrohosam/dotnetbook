@@ -20,9 +20,9 @@ namespace BookApi.Applications.Book
             return this.bookQueryRepository.FindById(id);
         }
 
-        public List<BookRepository> GetList(string search, int perPage, int page)
+        public List<BookRepository> GetList(string search, int page, int perPage)
         {
-            return this.bookQueryRepository.Get(search, perPage, page);
+            return this.bookQueryRepository.Get(search, page, perPage);
         }
 
         public void CreateFromAPI(BookCreate bookCreate)

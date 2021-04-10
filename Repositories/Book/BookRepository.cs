@@ -34,7 +34,8 @@ namespace BookApi.Repositories.Book
                 {
                     Id = book.Id,
                     Sinopsis = book.Sinopsis,
-                    Name = book.Name
+                    Name = book.Name,
+                    Authorid = book.Authorid
                 }));
             }
 

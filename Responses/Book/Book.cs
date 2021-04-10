@@ -1,6 +1,7 @@
 using BookApi.Repositories.Book;
 using BookApi.Responses.Author;
 using System.Collections.Generic;
+using System;
 
 namespace BookApi.Responses.Book
 {
@@ -42,6 +43,7 @@ namespace BookApi.Responses.Book
             this.Id = bookRepository.Id;
             this.Name = bookRepository.Name;
             this.Sinopsis = bookRepository.Sinopsis;
+            Console.WriteLine(bookRepository.Authorid);
             this.Authorid = bookRepository.Authorid;
         }
 

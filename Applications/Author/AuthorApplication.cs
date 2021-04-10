@@ -27,9 +27,9 @@ namespace BookApi.Applications.Author
             return this.authorQueryRepository.FindById(id);
         }
 
-        public List<AuthorRepository> GetList(string search, int perPage, int page)
+        public List<AuthorRepository> GetList(string search, int page, int perPage)
         {
-            return this.authorQueryRepository.Get(search, perPage, page);
+            return this.authorQueryRepository.Get(search, page, perPage);
         }
 
         public void UpdateFromAPI(long id, AuthorUpdate authorUpdate)

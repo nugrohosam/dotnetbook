@@ -18,9 +18,7 @@ namespace BookApi.Repositories.Author
         public void Create(AuthorRepository authorRepository)
         {
             Models.Author newAuthor = new Models.Author();
-
             newAuthor.Name = authorRepository.Name;
-
             this.save(newAuthor);
         }
 
@@ -45,7 +43,7 @@ namespace BookApi.Repositories.Author
 
         private void save(Models.Author Author, bool isUpdate = false)
         {
-            if (isUpdate)
+            if (!isUpdate)
             {
                 this.context.Authors.Add(Author);
             }

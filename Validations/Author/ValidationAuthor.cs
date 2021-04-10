@@ -1,24 +1,24 @@
 using System.ComponentModel.DataAnnotations;
 using System;
-using BookApi.Applications.Book;
-using BookApi.Repositories.Book;
+using BookApi.Applications.Author;
+using BookApi.Repositories.Author;
 
 namespace BookApi.Validations.Author
 {
     public class IsExists : ValidationAttribute
     {
-        BookApplication bookApplication;
+        AuthorApplication authorApplication;
 
         public IsExists(string errorMessage) : base(errorMessage)
         {
-            this.bookApplication = new BookApplication();
+            this.authorApplication = new AuthorApplication();
         }
         
         public override bool IsValid(object value)
         {
             long authorId = Convert.ToInt64(value.ToString());
-            BookRepository bookRepository = this.bookApplication.DetailById(authorId);
-            return bookRepository.Id > 0;
+            AuthorRepository authorRepository = this.authorApplication.DetailById(authorId);
+            return authorRepository.Id > 0;
         }
     }
 }
