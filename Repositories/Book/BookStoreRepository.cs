@@ -22,7 +22,6 @@ namespace BookApi.Repositories.Book
 
         public void Create(BookRepository bookRepository)
         {
-            this.validationData(bookRepository);
             Models.Book newBook = new Models.Book();
 
             newBook.Name = bookRepository.Name;
@@ -34,7 +33,6 @@ namespace BookApi.Repositories.Book
 
         public void Update(long id, BookRepository bookRepository)
         {
-            this.validationData(bookRepository);
             Models.Book oldBook = this.bookQueryRepository.Find(id);
             if (oldBook == null)
             {
@@ -62,18 +60,6 @@ namespace BookApi.Repositories.Book
                 this.context.Books.Add(Book);
             }
             this.context.SaveChanges();
-        }
-
-        private void validationData(BookRepository bookRepository)
-        {
-            List<IDictionary<string, string>> validation = new List<IDictionary<string, string>>();
-
-            AuthorRepository authorRepository = this.authorQueryRepository.FindById(bookRepository.Authorid);
-            if (authorRepository.Id < 1)
-            {
-                validation = ErrorUtility.CreateSingleErrorValidation("authorid", "Not Exist");
-                throw (new DataException(JsonSerializer.Serialize(validation)));
-            }
         }
     }
 }
