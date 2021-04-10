@@ -23,6 +23,14 @@ namespace BookApi.Models
         [Column("name")]
         public string Name { get; set; }
         [Column("email")]
-        public string email { get; set; }
+        public string Email { get; set; }
+
+        
+        private List<UserRole> userRoles;
+        public List<UserRole> UserRoles
+        {
+            get => this.lazyLoader.Load(this, ref userRoles);
+            set => userRoles = value;
+        }
     }
 }

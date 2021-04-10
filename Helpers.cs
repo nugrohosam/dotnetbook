@@ -2,8 +2,11 @@ using System.Net;
 using System.Collections.Generic;
 using BookApi.Responses;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using dotenv.net;
+using System.Text;
 using System;
 
 namespace BookApi
@@ -26,6 +29,24 @@ namespace BookApi
             return validation;
         }
     }
+    public class AuthUtility
+    {
+        public static string GenerateJwtToken(string email)
+        {
+            IDictionary<string, string> env = DotEnv.Read();
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Encoding.ASCII.GetBytes(env["KEY"]);
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("email", email) }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+        }
+    }
     [DataContract]
     public abstract class ApiResponse
     {
@@ -41,7 +62,7 @@ namespace BookApi
         public object Data { get; set; }
         public ApiResponseData(HttpStatusCode statusCode, object data = null)
         {
-            this.StatusCode = (int) statusCode;
+            this.StatusCode = (int)statusCode;
             this.Data = data;
         }
     }
@@ -110,7 +131,7 @@ namespace BookApi
 
         [DataMember(EmitDefaultValue = true)]
         public string ErrorMessage { get; set; }
-        
+
         public ApiResponseValidationError(HttpStatusCode statusCode, object errors, string errorMessage = "Validation Message")
         {
             this.StatusCode = (int)statusCode;

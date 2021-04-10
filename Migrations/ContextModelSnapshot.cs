@@ -176,7 +176,7 @@ namespace BookApi.Migrations
                         .IsRequired();
 
                     b.HasOne("BookApi.Models.Role", "Role")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("Roleid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -185,13 +185,13 @@ namespace BookApi.Migrations
             modelBuilder.Entity("BookApi.Models.UserRole", b =>
                 {
                     b.HasOne("BookApi.Models.Role", "Role")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("Roleid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BookApi.Models.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("Userid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

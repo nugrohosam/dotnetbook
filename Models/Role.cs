@@ -22,5 +22,19 @@ namespace BookApi.Models
         public long Id { get; set; }
         [Column("name")]
         public string Name { get; set; }
+
+        private List<UserRole> userRoles;
+        public List<UserRole> UserRoles
+        {
+            get => this.lazyLoader.Load(this, ref userRoles);
+            set => userRoles = value;
+        }
+
+        private List<RolePermission> rolePermissions;
+        public List<RolePermission> RolePermissions
+        {
+            get => this.lazyLoader.Load(this, ref rolePermissions);
+            set => rolePermissions = value;
+        }
     }
 }
