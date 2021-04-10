@@ -13,7 +13,7 @@ namespace BookApi.Middlewares
                 bool isContains = context.Request.Headers.ContainsKey("Authorization");
                 if (!isContains)
                 {
-                    throw (new Exceptions.UnauthorizedAccessException("Not Authenticated"));
+                    throw (new Exceptions.UnauthorizedException());
                 }
 
                 return next();
@@ -30,7 +30,7 @@ namespace BookApi.Middlewares
                 bool isContains = context.Request.Headers.ContainsKey("Role");
                 if (!isContains)
                 {
-                    throw (new Exceptions.UnauthorizedAccessException("Not Authenticated With Correctly Role"));
+                    throw (new Exceptions.UnauthorizedException("Not Authenticated With Correctly Role"));
                 }
 
                 return next();

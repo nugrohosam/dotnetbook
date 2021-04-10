@@ -4,18 +4,18 @@ using System.Net.Http;
 namespace BookApi.Exceptions
 {
 
-    public class UnauthorizedAccessException : HttpRequestException
+    public class UnauthorizedException : HttpRequestException
     {
-        public UnauthorizedAccessException()
+        public UnauthorizedException() : base("Not Authenticated")
         {
         }
 
-        public UnauthorizedAccessException(string message)
+        public UnauthorizedException(string message)
             : base(message)
         {
         }
 
-        public UnauthorizedAccessException(string message, Exception inner)
+        public UnauthorizedException(string message, Exception inner)
             : base(message, inner)
         {
         }

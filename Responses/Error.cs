@@ -6,22 +6,30 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BookApi.Responses
 {
+    public class Validation
+    {
+        public string Key;
+        public object Value;
+    }
+
     public class ErrorValidation
     {
-        public static List<IDictionary<string, string>> Error(ActionContext actionContext)
+        public static List<Validation> Error(ActionContext actionContext)
         {
             List<KeyValuePair<string, ModelStateEntry>> errors = actionContext.ModelState
              .Where(modelError => modelError.Value.Errors.Count > 0)
              .ToList();
 
-            List<IDictionary<string, string>> errorParsed = new List<IDictionary<string, string>>();
+            List<Validation> errorParsed = new List<Validation>();
             foreach (KeyValuePair<string, ModelStateEntry> error in errors)
             {
-                IDictionary<string, string> data = new Dictionary<string, string>();
-                data.Add("key", error.Key.ToLower());
-                data.Add("field", error.Value.Errors.First().ErrorMessage);
+                Validation errorData = new Validation
+                {
+                    Key = error.Key,
+                    Value = error.Value
+                };
 
-                errorParsed.Add(data);
+                errorParsed.Add(errorData);
             }
 
             return errorParsed;

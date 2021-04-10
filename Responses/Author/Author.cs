@@ -12,6 +12,10 @@ namespace BookApi.Responses.Author
 
         public List<BookItem> Books { get; set; }
 
+        public AuthorDetail()
+        {
+        }
+
         public AuthorDetail(AuthorRepository authorRepository)
         {
             this.Id = authorRepository.Id;
@@ -27,7 +31,11 @@ namespace BookApi.Responses.Author
         public long Id { get; set; }
         public string Name { get; set; }
 
-        public AuthorItem (AuthorRepository authorRepository)
+        public AuthorItem()
+        {
+        }
+
+        public AuthorItem(AuthorRepository authorRepository)
         {
             this.Id = authorRepository.Id;
             this.Name = authorRepository.Name;

@@ -7,6 +7,7 @@ using BookApi.Responses;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace BookApi
 {
@@ -56,15 +57,9 @@ namespace BookApi
 
             app.UseRouting();
 
-            app.UseRequestLocalization();
-
             app.UseCors();
 
-            // app.UseResponseCompression();
-
             app.UseResponseCaching();
-
-            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
