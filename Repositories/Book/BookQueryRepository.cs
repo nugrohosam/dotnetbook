@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Data.Entity;
+using BookApi.Models;
 using System;
 using System.Collections.Generic;
 
@@ -38,17 +39,17 @@ namespace BookApi.Repositories.Book
             return this.bookRepository;
         }
 
-        public List<BookRepository> GetPaginate(string search, int page, int limit)
+        public List<BookRepository> Get(string search, int page, int perPage)
         {
-            int skip = (1 - page) * limit;
-            List<Models.Book> books = this.context.Books.Where(Book => Book.Name.Contains(search)).Skip(skip).Take(limit).ToList();
-            return this.bookRepository.MapFromModel(books);
-        }
+            int skip = (1 - page) * perPage;
+            List<Models.Book> books;
+            IQueryable<Models.Book> bookQuery = this.context.Books;
+            if (search != null)
+            {
+                bookQuery = bookQuery.Where(Book => Book.Name.Contains(search));
+            }
 
-        public List<BookRepository> Get(string search, int page, int limit)
-        {
-            int skip = (1 - page) * limit;
-            List<Models.Book> books = this.context.Books.Where(Book => Book.Name.Contains(search)).ToList();
+            books = bookQuery.Skip(skip).Take(perPage).ToList();
             return this.bookRepository.MapFromModel(books);
         }
     }

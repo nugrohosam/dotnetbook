@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using BookApi.Validations.Author;
 
 namespace BookApi.Requests.Book
 {
@@ -26,6 +27,7 @@ namespace BookApi.Requests.Book
         public string Sinopsis { get; set; }
 
         [Required]
+        [IsExists("Author not exist")]
         public long Authorid { get; set; }
     }
 }

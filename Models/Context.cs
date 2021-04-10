@@ -20,7 +20,6 @@ namespace BookApi.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
             if (!optionsBuilder.IsConfigured)
             {
                 IDictionary<string, string> env = DotEnv.Read();

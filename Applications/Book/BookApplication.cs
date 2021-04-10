@@ -20,11 +20,6 @@ namespace BookApi.Applications.Book
             return this.bookQueryRepository.FindById(id);
         }
 
-        public List<BookRepository> PaginateData(string search, int perPage, int page)
-        {
-            return this.bookQueryRepository.GetPaginate(search, perPage, page);
-        }
-
         public List<BookRepository> GetList(string search, int perPage, int page)
         {
             return this.bookQueryRepository.Get(search, perPage, page);

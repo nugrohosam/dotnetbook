@@ -36,17 +36,17 @@ namespace BookApi.Repositories.Author
 
             return this.authorRepository;
         }
+        public List<AuthorRepository> Get(string search, int page, int perPage)
+        {
+            int skip = (1 - page) * perPage;
+            List<Models.Author> authors;
+            IQueryable<Models.Author> authorQuery = this.context.Authors;
+            if (search != null)
+            {
+                authorQuery = authorQuery.Where(author => author.Name.Contains(search));
+            }
 
-        public List<AuthorRepository> GetPaginate(string search, int page, int limit)
-        {
-            int skip = (1 - page) * limit;
-            List<Models.Author> authors = this.context.Authors.Where(Author => Author.Name.Contains(search)).Skip(skip).Take(limit).ToList();
-            return this.authorRepository.MapFromModel(authors);
-        }
-        public List<AuthorRepository> Get(string search, int page, int limit)
-        {
-            int skip = (1 - page) * limit;
-            List<Models.Author> authors = this.context.Authors.Where(Author => Author.Name.Contains(search)).ToList();
+            authors = authorQuery.Skip(skip).Take(perPage).ToList<Models.Author>();
             return this.authorRepository.MapFromModel(authors);
         }
     }

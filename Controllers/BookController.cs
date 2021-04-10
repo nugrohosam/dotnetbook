@@ -29,7 +29,7 @@ namespace BookApi.Controllers
         {
             if (query.Pagination)
             {
-                List<BookRepository> booksRepo = this.bookApplication.PaginateData(query.Search, query.Page, query.PerPage);
+                List<BookRepository> booksRepo = this.bookApplication.GetList(query.Search, query.Page, query.PerPage);
                 PaginationModel paginate = new PaginationModel()
                 {
                     Page = query.Page,

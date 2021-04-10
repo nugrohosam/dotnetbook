@@ -27,11 +27,6 @@ namespace BookApi.Applications.Author
             return this.authorQueryRepository.FindById(id);
         }
 
-        public List<AuthorRepository> PaginateData(string search, int perPage, int page)
-        {
-            return this.authorQueryRepository.GetPaginate(search, perPage, page);
-        }
-
         public List<AuthorRepository> GetList(string search, int perPage, int page)
         {
             return this.authorQueryRepository.Get(search, perPage, page);
