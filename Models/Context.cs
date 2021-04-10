@@ -14,6 +14,16 @@ namespace BookApi.Models
         {
         }
 
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Permission> Permissions { get; set; }
+        
+        public DbSet<UserRole> UserRoles { get; set; }
+
+        public DbSet<RolePermission> RolePermissions { get; set; }
+
         public DbSet<Author> Authors { get; set; }
 
         public DbSet<Book> Books { get; set; }
@@ -31,8 +41,6 @@ namespace BookApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Author>()
-                .HasMany(a => a.Books);
             OnModelCreatingPartial(modelBuilder);
         }
 
