@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BookApi.Requests;
 using BookApi.Requests.Author;
 using BookApi.Responses;
+using BookApi.Middlewares;
 using BookApi.Responses.Author;
 using BookApi.Applications.Author;
 using System;
@@ -12,7 +13,7 @@ namespace BookApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [MiddlewareFilter(typeof(Middlewares.Authorization))]
+    [MiddlewareFilter(typeof(AuthorizationCheck))]
     public class AuthorController : ControllerBase
     {
         private AuthorApplication authorApplication;

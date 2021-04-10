@@ -1,18 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using BookApi.Requests;
 using BookApi.Requests.Book;
+using System.Collections.Generic;
+using BookApi.Repositories.Book;
 using BookApi.Middlewares;
 using BookApi.Responses;
 using BookApi.Responses.Book;
 using BookApi.Applications.Book;
 using System.Net;
-using System;
 
 namespace BookApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [MiddlewareFilter(typeof(Middlewares.Authorization))]
+    [MiddlewareFilter(typeof(AuthorizationCheck))]
     public class BookController : ControllerBase
     {
         private BookApplication bookApplication;
@@ -28,14 +29,14 @@ namespace BookApi.Controllers
         {
             if (query.Pagination)
             {
-                var booksRepo = this.bookApplication.PaginateData(query.Search, query.Page, query.PerPage);
-                PaginationModel paginate = (new PaginationModel()
+                List<BookRepository> booksRepo = this.bookApplication.PaginateData(query.Search, query.Page, query.PerPage);
+                PaginationModel paginate = new PaginationModel()
                 {
                     Page = query.Page,
                     PerPage = query.PerPage,
                     Data = BookItem.MapRepo(booksRepo),
                     Total = booksRepo.Count
-                });
+                };
 
                 return (new ApiResponsePagination(HttpStatusCode.OK, paginate));
             }
@@ -50,13 +51,13 @@ namespace BookApi.Controllers
         [HttpGet("{id}", Name = "GetBook")]
         public ApiResponse Show(long id)
         {
+            BookDetail bookDetail = null;
             var bookRepository = this.bookApplication.DetailById(id);
-            if (bookRepository.Id == 0)
+            if (bookRepository.Id != 0)
             {
-                return (new ApiResponseData(HttpStatusCode.OK, null));
+                bookDetail = new BookDetail(bookRepository);
             }
 
-            BookDetail bookDetail = (new BookDetail(bookRepository));
             return (new ApiResponseData(HttpStatusCode.OK, bookDetail));
         }
 

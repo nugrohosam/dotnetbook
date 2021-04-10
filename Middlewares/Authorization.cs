@@ -4,7 +4,7 @@ using System;
 
 namespace BookApi.Middlewares
 {
-    public class Authorization
+    public class AuthorizationCheck
     {
         public void Configure(IApplicationBuilder app)
         {
@@ -14,6 +14,23 @@ namespace BookApi.Middlewares
                 if (!isContains)
                 {
                     throw (new Exceptions.UnauthorizedAccessException("Not Authenticated"));
+                }
+
+                return next();
+            });
+        }
+    }
+
+    public class AuthorizationRole
+    {
+        public void Configure(IApplicationBuilder app)
+        {
+            app.Use((context, next) =>
+            {
+                bool isContains = context.Request.Headers.ContainsKey("Role");
+                if (!isContains)
+                {
+                    throw (new Exceptions.UnauthorizedAccessException("Not Authenticated With Correctly Role"));
                 }
 
                 return next();

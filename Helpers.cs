@@ -37,11 +37,11 @@ namespace BookApi
         [DataMember]
         public int StatusCode { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public object Data { get; set; }
         public ApiResponseData(HttpStatusCode statusCode, object data = null)
         {
-            this.StatusCode = (int)statusCode;
+            this.StatusCode = (int) statusCode;
             this.Data = data;
         }
     }
@@ -50,10 +50,10 @@ namespace BookApi
         [DataMember]
         public int StatusCode { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public object Items { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public int Count { get; set; }
         public ApiResponseDataList(HttpStatusCode statusCode, object items, int count)
         {
@@ -67,16 +67,16 @@ namespace BookApi
         [DataMember]
         public int StatusCode { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public object items { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public int Page { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public int PerPage { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public int total { get; set; }
         public ApiResponsePagination(HttpStatusCode statusCode, PaginationModel paginationModel)
         {
@@ -89,7 +89,7 @@ namespace BookApi
     }
     public class ApiResponseError : ApiResponse
     {
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public string ErrorMessage { get; set; }
 
         [DataMember]
@@ -102,13 +102,13 @@ namespace BookApi
     }
     public class ApiResponseValidationError : ApiResponse
     {
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public object Errors { get; set; }
 
         [DataMember]
         public int StatusCode { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember(EmitDefaultValue = true)]
         public string ErrorMessage { get; set; }
         
         public ApiResponseValidationError(HttpStatusCode statusCode, object errors, string errorMessage = "Validation Message")

@@ -12,6 +12,9 @@ namespace BookApi.Responses.Book
 
         public long Authorid { get; set; }
         public AuthorItem Author { get; set; }
+        
+        public BookDetail()
+        { }
 
         public BookDetail(BookRepository bookRepository)
         {
@@ -24,7 +27,6 @@ namespace BookApi.Responses.Book
     }
     public class BookItem
     {
-
         public long Id { get; set; }
         public string Name { get; set; }
         public string Sinopsis { get; set; }
