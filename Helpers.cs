@@ -8,11 +8,11 @@ using System;
 
 namespace BookApi
 {
-    public class Utility
+    public class ErrorUtility
     {
         public static List<IDictionary<string, string>> CreateSingleErrorValidation(string key, string field)
         {
-            IDictionary<string, string> errorsValidation = Utility.SetErrorValidation(key, field);
+            IDictionary<string, string> errorsValidation = ErrorUtility.SetErrorValidation(key, field);
             List<IDictionary<string, string>> validations = new List<IDictionary<string, string>>();
             validations.Add(errorsValidation);
 
@@ -110,6 +110,7 @@ namespace BookApi
 
         [DataMember(EmitDefaultValue = false)]
         public string ErrorMessage { get; set; }
+        
         public ApiResponseValidationError(HttpStatusCode statusCode, object errors, string errorMessage = "Validation Message")
         {
             this.StatusCode = (int)statusCode;

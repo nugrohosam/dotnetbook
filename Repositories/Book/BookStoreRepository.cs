@@ -71,7 +71,7 @@ namespace BookApi.Repositories.Book
             AuthorRepository authorRepository = this.authorQueryRepository.FindById(bookRepository.Authorid);
             if (authorRepository.Id < 1)
             {
-                validation = Utility.CreateSingleErrorValidation("authorid", "Not Exist");
+                validation = ErrorUtility.CreateSingleErrorValidation("authorid", "Not Exist");
                 throw (new DataException(JsonSerializer.Serialize(validation)));
             }
         }

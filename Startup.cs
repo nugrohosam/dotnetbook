@@ -34,9 +34,11 @@ namespace BookApi
             .ConfigureApiBehaviorOptions(options =>
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
-                {
-                    return (new ObjectResult(new ApiResponseValidationError(HttpStatusCode.BadRequest, ErrorValidation.Error(actionContext), "Validation Error")));
-                };
+                    {
+
+                        ApiResponse apiResponseError = new ApiResponseValidationError(HttpStatusCode.BadRequest, ErrorValidation.Error(actionContext), "Validation Error");
+                        return (new ObjectResult(apiResponseError));
+                    };
             });
         }
 
