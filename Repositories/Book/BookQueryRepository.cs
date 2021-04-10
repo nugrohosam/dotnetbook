@@ -32,7 +32,7 @@ namespace BookApi.Repositories.Book
             this.bookRepository.Id = book.Id;
             this.bookRepository.Name = book.Name;
             this.bookRepository.Sinopsis = book.Sinopsis;
-            this.bookRepository.AuthorId = book.AuthorId;
+            this.bookRepository.Authorid = book.Authorid;
             this.bookRepository.MapToAuthorRepo(book.Author);
 
             return this.bookRepository;

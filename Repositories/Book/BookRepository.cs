@@ -9,7 +9,7 @@ namespace BookApi.Repositories.Book
         public long Id { get; set; }
         public string Name { get; set; }
         public string Sinopsis { get; set; }
-        public long AuthorId { get; set; }
+        public long Authorid { get; set; }
         public AuthorRepository Author { get; set; }
 
         public void MapToAuthorRepo(Models.Author author)

@@ -1,18 +1,12 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using BookApi.Models;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using dotenv.net;
 using BookApi.Responses;
-using Middlewares = BookApi.Middlewares;
-using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
 
 namespace BookApi
 {
@@ -20,7 +14,6 @@ namespace BookApi
     {
         public Startup(IConfiguration configuration)
         {
-            DotEnv.Load();
             Configuration = configuration;
         }
 
@@ -29,22 +22,20 @@ namespace BookApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IDictionary<string, string> env = DotEnv.Read();
-            services.AddDbContext<Context>(
-                dbContextOptions => dbContextOptions
-                    .UseMySql(
-                        env["CONNECTION_STRING"],
-                        mySqlOptions => mySqlOptions
-                            .CharSetBehavior(CharSetBehavior.NeverAppend))
-                    .EnableSensitiveDataLogging()
-                    .EnableDetailedErrors());
-
-            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            services
+            .AddControllers()
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                };
+            })
+            .ConfigureApiBehaviorOptions(options =>
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
                 {
-                    ApiResponseValidationError responseError = new ApiResponseValidationError(HttpStatusCode.BadRequest, ErrorValidation.Error(actionContext), "Validation Error");
-                    return (new ObjectResult(responseError));
+                    return (new ObjectResult(new ApiResponseValidationError(HttpStatusCode.BadRequest, ErrorValidation.Error(actionContext), "Validation Error")));
                 };
             });
         }

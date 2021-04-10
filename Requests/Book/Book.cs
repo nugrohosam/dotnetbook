@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi.Requests.Book
 {
@@ -14,7 +13,7 @@ namespace BookApi.Requests.Book
         public string Sinopsis { get; set; }
 
         [Required]
-        public long AuthorId { get; set; }
+        public long Authorid { get; set; }
     }
     public class BookUpdate
     {
@@ -27,6 +26,6 @@ namespace BookApi.Requests.Book
         public string Sinopsis { get; set; }
 
         [Required]
-        public long AuthorId { get; set; }
+        public long Authorid { get; set; }
     }
 }

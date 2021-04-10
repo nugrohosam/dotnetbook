@@ -41,7 +41,7 @@ namespace BookApi.Migrations
                         .HasColumnName("id")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("AuthorId")
+                    b.Property<long>("Authorid")
                         .HasColumnName("authorid")
                         .HasColumnType("bigint");
 
@@ -55,7 +55,7 @@ namespace BookApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("Authorid");
 
                     b.ToTable("books");
                 });
@@ -64,7 +64,7 @@ namespace BookApi.Migrations
                 {
                     b.HasOne("BookApi.Models.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("Authorid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

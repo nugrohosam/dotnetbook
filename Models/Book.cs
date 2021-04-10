@@ -26,8 +26,8 @@ namespace BookApi.Models
         public string Sinopsis { get; set; }
 
         [Column("authorid")]
-        public long AuthorId { get; set; }
-        [ForeignKey(nameof(AuthorId))]
+        public long Authorid { get; set; }
+        [ForeignKey(nameof(Authorid))]
 
         private Author author;
         public Author Author

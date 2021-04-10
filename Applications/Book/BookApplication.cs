@@ -36,7 +36,7 @@ namespace BookApi.Applications.Book
 
             bookRepository.Name = bookCreate.Name;
             bookRepository.Sinopsis = bookCreate.Sinopsis;
-            bookRepository.AuthorId = bookCreate.AuthorId;
+            bookRepository.Authorid = bookCreate.Authorid;
 
             this.bookStoreRepository.Create(bookRepository);
         }

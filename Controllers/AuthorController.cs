@@ -33,7 +33,7 @@ namespace BookApi.Controllers
                 {
                     Page = query.Page,
                     PerPage = query.PerPage,
-                    Data = (new AuthorItem()).MapRepo(authorsRepo),
+                    Data = AuthorItem.MapRepo(authorsRepo),
                     Total = authorsRepo.Count
                 });
 
@@ -48,7 +48,7 @@ namespace BookApi.Controllers
 
         // GET: api/Author/5
         [HttpGet("{id}", Name = "GetAuthor")]
-        public AuthorDetail Show(long id)
+        public ApiResponse Show(long id)
         {
             var authorRepository = this.authorApplication.DetailById(id);
             if (authorRepository.Id == 0)
@@ -56,7 +56,7 @@ namespace BookApi.Controllers
                 return null;
             }
 
-            return (new AuthorDetail()).BindRepo(authorRepository);
+            return (new ApiResponseData(HttpStatusCode.OK, (new AuthorDetail(authorRepository))));
         }
 
         // POST: api/Author

@@ -33,7 +33,7 @@ namespace BookApi.Controllers
                 {
                     Page = query.Page,
                     PerPage = query.PerPage,
-                    Data = (new BookItem()).MapRepo(booksRepo),
+                    Data = BookItem.MapRepo(booksRepo),
                     Total = booksRepo.Count
                 });
 
@@ -56,7 +56,7 @@ namespace BookApi.Controllers
                 return (new ApiResponseData(HttpStatusCode.OK, null));
             }
 
-            BookDetail bookDetail = (new BookDetail()).BindRepo(bookRepository);
+            BookDetail bookDetail = (new BookDetail(bookRepository));
             return (new ApiResponseData(HttpStatusCode.OK, bookDetail));
         }
 

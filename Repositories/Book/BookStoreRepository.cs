@@ -27,7 +27,7 @@ namespace BookApi.Repositories.Book
 
             newBook.Name = bookRepository.Name;
             newBook.Sinopsis = bookRepository.Sinopsis;
-            newBook.AuthorId = bookRepository.AuthorId;
+            newBook.Authorid = bookRepository.Authorid;
 
             this.save(newBook);
         }
@@ -43,7 +43,7 @@ namespace BookApi.Repositories.Book
 
             oldBook.Name = bookRepository.Name;
             oldBook.Sinopsis = bookRepository.Sinopsis;
-            oldBook.AuthorId = bookRepository.AuthorId;
+            oldBook.Authorid = bookRepository.Authorid;
 
             this.save(oldBook, true);
         }
@@ -68,13 +68,12 @@ namespace BookApi.Repositories.Book
         {
             List<IDictionary<string, string>> validation = new List<IDictionary<string, string>>();
 
-            AuthorRepository authorRepository = this.authorQueryRepository.FindById(bookRepository.AuthorId);
+            AuthorRepository authorRepository = this.authorQueryRepository.FindById(bookRepository.Authorid);
             if (authorRepository.Id < 1)
             {
-                validation = Utility.CreateSingleValidation("authorid", "Not Exist");
+                validation = Utility.CreateSingleErrorValidation("authorid", "Not Exist");
                 throw (new DataException(JsonSerializer.Serialize(validation)));
             }
-
         }
     }
 }

@@ -6,53 +6,48 @@ namespace BookApi.Responses.Author
 {
     public class AuthorDetail
     {
-        public long id { get; set; }
+        public long Id { get; set; }
 
-        public string name { get; set; }
-        
-        public List<BookItem> books { get; set; }
+        public string Name { get; set; }
 
-        public AuthorDetail BindRepo(AuthorRepository authorRepository)
+        public List<BookItem> Books { get; set; }
+
+        public AuthorDetail(AuthorRepository authorRepository)
         {
-            this.id = authorRepository.Id;
-            this.name = authorRepository.Name;
+            this.Id = authorRepository.Id;
+            this.Name = authorRepository.Name;
             if (authorRepository.Books != null)
             {
-                this.books = (new BookItem()).MapRepo(authorRepository.Books);
+                this.Books = BookItem.MapRepo(authorRepository.Books);
             }
-
-            return this;
         }
     }
     public class AuthorItem
     {
+        public long Id { get; set; }
+        public string Name { get; set; }
 
-        public long id { get; set; }
-        public string name { get; set; }
-
-        public AuthorItem BindRepo(AuthorRepository authorRepository)
+        public AuthorItem (AuthorRepository authorRepository)
         {
-            this.id = authorRepository.Id;
-            this.name = authorRepository.Name;
-            return this;
+            this.Id = authorRepository.Id;
+            this.Name = authorRepository.Name;
         }
-        public List<AuthorItem> MapRepo(List<AuthorRepository> bookRepositories)
+        public static List<AuthorItem> MapRepo(List<AuthorRepository> authorRepositories)
         {
-            List<AuthorItem> books = new List<AuthorItem>();
-            if (bookRepositories == null)
+            List<AuthorItem> Books = new List<AuthorItem>();
+            if (authorRepositories == null)
             {
                 return (new List<AuthorItem>());
             }
 
-            foreach (AuthorRepository book in bookRepositories)
+            foreach (AuthorRepository author in authorRepositories)
             {
-                books.Add(this.BindRepo(book));
+                Books.Add(new AuthorItem(author));
             }
 
-            return books;
+            return Books;
         }
     }
-
     public class AuthorList
     {
 
