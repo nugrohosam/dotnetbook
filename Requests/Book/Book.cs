@@ -18,6 +18,7 @@ namespace BookApi.Requests.Book
         [AuthorValidation.IsExists("Author not exist")]
         public long Authorid { get; set; }
     }
+
     public class BookUpdate
     {
         [Required]

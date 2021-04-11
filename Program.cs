@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using dotenv.net;
+using System.Collections.Generic;
+using BookApi.Exceptions;
 
 namespace BookApi
 {
@@ -16,7 +19,29 @@ namespace BookApi
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    IDictionary<string, string> env = DotEnv.Read();
+
+                    webBuilder
+                        .UseSentry(options =>
+                            {
+                                options.Dsn = env["SENTRY_DSN"];
+                                options.BeforeSend = @event =>
+                                {
+                                    if (
+                                        @event.Exception is DataNotFoundException ||
+                                        @event.Exception is DataException ||
+                                        @event.Exception is UnauthorizedException ||
+                                        @event.Exception is TokenNotValidException
+                                    )
+                                    {
+                                        return null;
+                                    }
+
+                                    @event.ServerName = null;
+                                    return @event;
+                                };
+                            })
+                        .UseStartup<Startup>();
                 });
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using BookApi.Exceptions;
 using System.Text.Json;
 using System.Collections.Generic;
+using System;
 
 namespace BookApi.Controllers
 {
@@ -22,11 +23,23 @@ namespace BookApi.Controllers
                 this.HttpContext.Response.StatusCode = 400;
                 return (new ApiResponseValidationError(statusCode, JsonSerializer.Deserialize<List<IDictionary<string, string>>>(context.Error.Message)));
             }
+            else if (context.Error is DataNotFoundException)
+            {
+                statusCode = HttpStatusCode.Unauthorized;
+                this.HttpContext.Response.StatusCode = 401;
+                return (new ApiResponseError(statusCode, context.Error.Message + " Not found"));
+            }
             else if (context.Error is UnauthorizedException)
             {
                 statusCode = HttpStatusCode.Unauthorized;
                 this.HttpContext.Response.StatusCode = 401;
-                return (new ApiResponseError(statusCode, context.Error.Message));
+                return (new ApiResponseError(statusCode, context.Error.Message + ", please sign in first"));
+            }
+            else if (context.Error is TokenNotValidException)
+            {
+                statusCode = HttpStatusCode.Unauthorized;
+                this.HttpContext.Response.StatusCode = 401;
+                return (new ApiResponseError(statusCode, context.Error.Message + ", please sign in again"));
             }
 
             statusCode = HttpStatusCode.InternalServerError;

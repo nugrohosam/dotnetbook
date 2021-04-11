@@ -20,4 +20,21 @@ namespace BookApi.Exceptions
         {
         }
     }
+
+    public class DataNotFoundException : HttpRequestException
+    {
+        public DataNotFoundException()
+        {
+        }
+
+        public DataNotFoundException(string message)
+            : base(message)
+        {
+        }
+
+        public DataNotFoundException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
 }
