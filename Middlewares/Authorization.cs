@@ -56,6 +56,10 @@ namespace BookApi.Middlewares
                 Endpoint endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
                 string nameRoute = endpoint?.Metadata.GetMetadata<IRouteNameMetadata>()?.RouteName;
                 string permission = Global.GetPermissionFromRoute(nameRoute);
+                if (permission == null)
+                {
+                    return next();
+                }
 
                 var headers = context.Request.Headers;
                 bool isContains = headers.ContainsKey("Role");

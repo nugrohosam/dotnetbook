@@ -25,7 +25,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/User
-        [HttpGet(Name = "GetListUser")]
+        [HttpGet(Name = "GetListUser" + Global.SeparatorRoutePermission + Global.GetUser)]
         public ApiResponse Index([FromQuery] Query query, [FromHeader] Header header)
         {
             if (query.Pagination)
@@ -49,7 +49,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/User/5
-        [HttpGet("{id}", Name = "GetUser")]
+        [HttpGet("{id}", Name = "GetDetailUser" + Global.SeparatorRoutePermission + Global.GetUser)]
         public ApiResponse Show(long id)
         {
             UserDetail userDetail = null;
@@ -62,17 +62,8 @@ namespace BookApi.Controllers
             return (new ApiResponseData(HttpStatusCode.OK, userDetail));
         }
 
-        // POST: api/User
-        [HttpPost]
-        [Consumes("application/json")]
-        public ApiResponse Store(UserCreate userCreate)
-        {
-            this.userApplication.CreateFromAPI(userCreate);
-            return (new ApiResponseData(HttpStatusCode.OK, null));
-        }
-
         // PUT: api/User/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateUser" + Global.SeparatorRoutePermission + Global.UpdateUser)]
         public ApiResponse Update(long id, UserUpdate userUpdate)
         {
             this.userApplication.UpdateFromAPI(id, userUpdate);
@@ -80,7 +71,7 @@ namespace BookApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "DeleteUser" + Global.SeparatorRoutePermission + Global.DeleteUser)]
         public ApiResponse Delete(int id)
         {
             this.userApplication.DeleteFromAPI(id);

@@ -25,7 +25,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Permission
-        [HttpGet(Name = "GetListPermission")]
+        [HttpGet(Name = "GetListPermission" + Global.SeparatorRoutePermission + Global.GetPermission)]
         public ApiResponse Index([FromQuery] Query query, [FromHeader] Header header)
         {
             if (query.Pagination)
@@ -49,7 +49,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Permission/5
-        [HttpGet("{id}", Name = "GetPermission")]
+        [HttpGet("{id}", Name = "GetDetailPermission" + Global.SeparatorRoutePermission + Global.GetPermission)]
         public ApiResponse Show(long id)
         {
             PermissionDetail permissionDetail = null;
@@ -60,31 +60,6 @@ namespace BookApi.Controllers
             }
 
             return (new ApiResponseData(HttpStatusCode.OK, permissionDetail));
-        }
-
-        // POST: api/Permission
-        [HttpPost]
-        [Consumes("application/json")]
-        public ApiResponse Store(PermissionCreate permissionCreate)
-        {
-            this.permissionApplication.CreateFromAPI(permissionCreate);
-            return (new ApiResponseData(HttpStatusCode.OK, null));
-        }
-
-        // PUT: api/Permission/5
-        [HttpPut("{id}")]
-        public ApiResponse Update(long id, PermissionUpdate permissionUpdate)
-        {
-            this.permissionApplication.UpdateFromAPI(id, permissionUpdate);
-            return (new ApiResponseData(HttpStatusCode.OK, null));
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public ApiResponse Delete(int id)
-        {
-            this.permissionApplication.DeleteFromAPI(id);
-            return (new ApiResponseData(HttpStatusCode.OK, null));
         }
     }
 }

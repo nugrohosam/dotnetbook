@@ -15,6 +15,7 @@ namespace BookApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [MiddlewareFilter(typeof(AuthorizationCheck))]
+    [MiddlewareFilter(typeof(AuthorizationRole))]
     public class BookController : ControllerBase
     {
         private BookApplication bookApplication;
@@ -25,8 +26,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Book
-        [HttpGet(Name = Global.RouteListBook)]
-        [MiddlewareFilter(typeof(AuthorizationRole))]
+        [HttpGet(Name = "GetListBook" + Global.SeparatorRoutePermission + Global.GetBook)]
         public ApiResponse Index([FromQuery] Query query, [FromHeader] Header header)
         {
             if (query.Pagination)
@@ -50,7 +50,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Book/5
-        [HttpGet("{id}", Name = Global.RouteDetailBook)]
+        [HttpGet("{id}", Name = "GetDetail" + Global.SeparatorRoutePermission + Global.GetBook)]
         public ApiResponse Show(long id)
         {
             BookDetail bookDetail = null;
@@ -64,7 +64,7 @@ namespace BookApi.Controllers
         }
 
         // POST: api/Book
-        [HttpPost(Name = Global.RouteCreateBook)]
+        [HttpPost(Name = "CreateBook" + Global.SeparatorRoutePermission + Global.GetBook)]
         [Consumes("application/json")]
         public ApiResponse Store(BookCreate bookCreate)
         {
@@ -73,7 +73,7 @@ namespace BookApi.Controllers
         }
 
         // PUT: api/Book/5
-        [HttpPost(Name = Global.RouteUpdateBook)]
+        [HttpPost("{id}", Name = "UpdateBook" + Global.SeparatorRoutePermission + Global.UpdateBook)]
         public ApiResponse Update(long id, BookUpdate bookUpdate)
         {
             this.bookApplication.UpdateFromAPI(id, bookUpdate);
@@ -81,7 +81,7 @@ namespace BookApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}", Name = Global.RouteDeleteBook)]
+        [HttpDelete("{id}", Name = "DeleteBook" + Global.SeparatorRoutePermission + Global.DeleteBook)]
         public ApiResponse Delete(int id)
         {
             this.bookApplication.DeleteFromAPI(id);

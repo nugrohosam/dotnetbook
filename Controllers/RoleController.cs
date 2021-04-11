@@ -25,7 +25,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Role
-        [HttpGet(Name = "GetListRole")]
+        [HttpGet(Name = "GetListRole" + Global.SeparatorRoutePermission + Global.GetRole)]
         public ApiResponse Index([FromQuery] Query query, [FromHeader] Header header)
         {
             if (query.Pagination)
@@ -49,7 +49,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Role/5
-        [HttpGet("{id}", Name = "GetRole")]
+        [HttpGet("{id}", Name = "GetDetailRole" + Global.SeparatorRoutePermission + Global.GetRole)]
         public ApiResponse Show(long id)
         {
             RoleDetail roleDetail = null;
@@ -60,31 +60,6 @@ namespace BookApi.Controllers
             }
 
             return (new ApiResponseData(HttpStatusCode.OK, roleDetail));
-        }
-
-        // POST: api/Role
-        [HttpPost]
-        [Consumes("application/json")]
-        public ApiResponse Store(RoleCreate roleCreate)
-        {
-            this.roleApplication.CreateFromAPI(roleCreate);
-            return (new ApiResponseData(HttpStatusCode.OK, null));
-        }
-
-        // PUT: api/Role/5
-        [HttpPut("{id}")]
-        public ApiResponse Update(long id, RoleUpdate roleUpdate)
-        {
-            this.roleApplication.UpdateFromAPI(id, roleUpdate);
-            return (new ApiResponseData(HttpStatusCode.OK, null));
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public ApiResponse Delete(int id)
-        {
-            this.roleApplication.DeleteFromAPI(id);
-            return (new ApiResponseData(HttpStatusCode.OK, null));
         }
     }
 }

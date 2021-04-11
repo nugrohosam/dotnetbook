@@ -14,6 +14,7 @@ namespace BookApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [MiddlewareFilter(typeof(AuthorizationCheck))]
+    [MiddlewareFilter(typeof(AuthorizationRole))]
     public class AuthorController : ControllerBase
     {
         private AuthorApplication authorApplication;
@@ -24,7 +25,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Author
-        [HttpGet(Name = "GetListAuthor")]
+        [HttpGet(Name = "GetListAuthor" + Global.SeparatorRoutePermission + Global.GetAuthor)]
         public ApiResponse Index([FromQuery] Query query, [FromHeader] Header header)
         {
             if (query.Pagination)
@@ -48,7 +49,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Author/5
-        [HttpGet("{id}", Name = "GetAuthor")]
+        [HttpGet("{id}", Name = "GetDetailAuthor" + Global.SeparatorRoutePermission + Global.GetAuthor)]
         public ApiResponse Show(long id)
         {
             var authorRepository = this.authorApplication.DetailById(id);
@@ -61,23 +62,22 @@ namespace BookApi.Controllers
         }
 
         // POST: api/Author
-        [HttpPost]
+        [HttpPost(Name = "CreateAuthor" + Global.SeparatorRoutePermission + Global.CreateAuthor)]
         [Consumes("application/json")]
-
         public void Store(AuthorCreate authorCreate)
         {
             this.authorApplication.CreateFromAPI(authorCreate);
         }
 
         // PUT: api/Author/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateAuthor" + Global.SeparatorRoutePermission + Global.UpdateAuthor)]
         public void Update(long id, AuthorUpdate authorUpdate)
         {
             this.authorApplication.UpdateFromAPI(id, authorUpdate);
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "DeleteAuthor" + Global.SeparatorRoutePermission + Global.DeleteAuthor)]
         public ApiResponse Delete(int id)
         {
             this.authorApplication.DeleteFromAPI(id);
