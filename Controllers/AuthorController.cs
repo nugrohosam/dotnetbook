@@ -31,8 +31,11 @@ namespace BookApi.Controllers
             if (query.Pagination)
             {
                 var authorsRepo = this.authorApplication.GetList(query.Search, query.Page, query.PerPage);
+                int count = this.authorApplication.Count(query.Search);
+                decimal pageInCount = count / query.PerPage;
                 PaginationModel paginate = (new PaginationModel()
                 {
+                    TotalPage = (int)Math.Ceiling(pageInCount),
                     Page = query.Page,
                     PerPage = query.PerPage,
                     Data = AuthorItem.MapRepo(authorsRepo),

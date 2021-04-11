@@ -31,13 +31,17 @@ namespace BookApi.Controllers
         {
             if (query.Pagination)
             {
+
                 List<BookRepository> booksRepo = this.bookApplication.GetList(query.Search, query.Page, query.PerPage);
+                int count = this.bookApplication.Count(query.Search);
+                decimal pageInCount = count / query.PerPage;
                 PaginationModel paginate = new PaginationModel()
                 {
+                    TotalPage = (int)Math.Ceiling(pageInCount),
                     Page = query.Page,
                     PerPage = query.PerPage,
                     Data = BookItem.MapRepo(booksRepo),
-                    Total = booksRepo.Count
+                    Total = count
                 };
 
                 return (new ApiResponsePagination(HttpStatusCode.OK, paginate));

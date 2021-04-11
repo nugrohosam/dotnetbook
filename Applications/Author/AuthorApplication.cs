@@ -31,6 +31,10 @@ namespace BookApi.Applications.Author
         {
             return this.authorQueryRepository.Get(search, page, perPage);
         }
+        public int Count(string search)
+        {
+            return this.authorQueryRepository.CountAll(search);
+        }
 
         public void UpdateFromAPI(long id, AuthorUpdate authorUpdate)
         {

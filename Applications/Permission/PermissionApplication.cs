@@ -31,6 +31,10 @@ namespace BookApi.Applications.Permission
         {
             return this.permissionQueryRepository.Get(search, page, perPage);
         }
+        public int Count(string search)
+        {
+            return this.permissionQueryRepository.CountAll(search);
+        }
 
         public void UpdateFromAPI(long id, PermissionUpdate permissionUpdate)
         {

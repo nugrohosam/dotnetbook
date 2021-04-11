@@ -61,5 +61,14 @@ namespace BookApi.Repositories.User
             users = userQuery.Skip(skip).Take(perPage).ToList();
             return this.userRepository.MapFromModel(users);
         }
+        public int CountAll(string search)
+        {
+            IQueryable<Models.User> userQuery = this.context.Users;
+            if (search != null)
+            {
+                userQuery = userQuery.Where(user => user.Name.Contains(search));
+            }
+            return userQuery.Count();
+        }
     }
 }

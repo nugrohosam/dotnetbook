@@ -52,5 +52,15 @@ namespace BookApi.Repositories.Book
             books = bookQuery.Skip(skip).Take(perPage).ToList();
             return this.bookRepository.MapFromModel(books);
         }
+        public int CountAll(string search)
+        {
+            IQueryable<Models.Book> bookQuery = this.context.Books;
+            if (search != null)
+            {
+                bookQuery = bookQuery.Where(book => book.Name.Contains(search));
+            }
+
+            return bookQuery.Count();
+        }
     }
 }

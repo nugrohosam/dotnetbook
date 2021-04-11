@@ -15,6 +15,7 @@ namespace BookApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [MiddlewareFilter(typeof(AuthorizationCheck))]
+    [MiddlewareFilter(typeof(AuthorizationRole))]
     public class RoleController : ControllerBase
     {
         private RoleApplication roleApplication;
@@ -31,8 +32,11 @@ namespace BookApi.Controllers
             if (query.Pagination)
             {
                 List<RoleRepository> rolesRepo = this.roleApplication.GetList(query.Search, query.Page, query.PerPage);
+                int count = this.roleApplication.Count(query.Search);
+                decimal pageInCount = count / query.PerPage;
                 PaginationModel paginate = new PaginationModel()
                 {
+                    TotalPage = (int)Math.Ceiling(pageInCount),
                     Page = query.Page,
                     PerPage = query.PerPage,
                     Data = RoleItem.MapRepo(rolesRepo),

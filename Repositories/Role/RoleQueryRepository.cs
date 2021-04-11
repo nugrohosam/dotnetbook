@@ -54,7 +54,7 @@ namespace BookApi.Repositories.Role
         {
             return this.context.Roles.Where(role => role.Name == nameRole).Where(role => roleIds.Contains(role.Id)).Count() > 0;
         }
-        
+
         public List<RoleRepository> Get(string search, int page, int perPage)
         {
             int skip = (1 - page) * perPage;
@@ -66,6 +66,16 @@ namespace BookApi.Repositories.Role
             }
             roles = roleQuery.Skip(skip).Take(perPage).ToList();
             return this.roleRepository.MapFromModel(roles);
+        }
+
+        public int CountAll(string search)
+        {
+            IQueryable<Models.Role> roleQuery = this.context.Roles;
+            if (search != null)
+            {
+                roleQuery = roleQuery.Where(role => role.Name.Contains(search));
+            }
+            return roleQuery.Count();
         }
     }
 }

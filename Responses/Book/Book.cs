@@ -43,7 +43,6 @@ namespace BookApi.Responses.Book
             this.Id = bookRepository.Id;
             this.Name = bookRepository.Name;
             this.Sinopsis = bookRepository.Sinopsis;
-            Console.WriteLine(bookRepository.Authorid);
             this.Authorid = bookRepository.Authorid;
         }
 

@@ -24,6 +24,10 @@ namespace BookApi.Applications.Book
         {
             return this.bookQueryRepository.Get(search, page, perPage);
         }
+        public int Count(string search)
+        {
+            return this.bookQueryRepository.CountAll(search);
+        }
 
         public void CreateFromAPI(BookCreate bookCreate)
         {

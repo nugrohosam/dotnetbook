@@ -8,7 +8,7 @@ namespace BookApi.Applications.Role
     {
         private RoleStoreRepository roleStoreRepository;
         private RoleQueryRepository roleQueryRepository;
-        
+
         public RoleApplication()
         {
             this.roleStoreRepository = new RoleStoreRepository();
@@ -30,6 +30,10 @@ namespace BookApi.Applications.Role
         public List<RoleRepository> GetList(string search, int page, int perPage)
         {
             return this.roleQueryRepository.Get(search, page, perPage);
+        }
+        public int Count(string search)
+        {
+            return this.roleQueryRepository.CountAll(search);
         }
 
         public void UpdateFromAPI(long id, RoleUpdate roleUpdate)

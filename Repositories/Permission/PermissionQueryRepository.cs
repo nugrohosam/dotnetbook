@@ -60,5 +60,15 @@ namespace BookApi.Repositories.Permission
             permissions = permissionQuery.Skip(skip).Take(perPage).ToList();
             return this.permissionRepository.MapFromModel(permissions);
         }
+        public int CountAll(string search)
+        {
+            IQueryable<Models.Permission> permissionQuery = this.context.Permissions;
+            if (search != null)
+            {
+                permissionQuery = permissionQuery.Where(permission => permission.Name.Contains(search));
+            }
+            
+            return permissionQuery.Count();
+        }
     }
 }

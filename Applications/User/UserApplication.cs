@@ -31,6 +31,10 @@ namespace BookApi.Applications.User
         {
             return this.userQueryRepository.Get(search, page, perPage);
         }
+        public int Count(string search)
+        {
+            return this.userQueryRepository.CountAll(search);
+        }
 
         public void UpdateFromAPI(long id, UserUpdate userUpdate)
         {
