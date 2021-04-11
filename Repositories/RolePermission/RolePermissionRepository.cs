@@ -8,6 +8,7 @@ namespace BookApi.Repositories.RolePermission
 {
     public class RolePermissionRepository
     {
+        public long Id { get; set; }
         public long Permissionid { get; set; }
         public long Roleid { get; set; }
 

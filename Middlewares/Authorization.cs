@@ -1,5 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using BookApi.Applications.Auth;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Routing;
+using System;
+
 namespace BookApi.Middlewares
 {
     public class AuthorizationCheck
@@ -37,14 +42,39 @@ namespace BookApi.Middlewares
 
     public class AuthorizationRole
     {
+        private AuthApplication authApplication;
+
+        public AuthorizationRole()
+        {
+            this.authApplication = new AuthApplication();
+        }
+
         public void Configure(IApplicationBuilder app)
         {
             app.Use((context, next) =>
             {
-                bool isContains = context.Request.Headers.ContainsKey("Role");
+                Endpoint endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
+                string nameRoute = endpoint?.Metadata.GetMetadata<IRouteNameMetadata>()?.RouteName;
+                string permission = Global.GetPermissionFromRoute(nameRoute);
+
+                var headers = context.Request.Headers;
+                bool isContains = headers.ContainsKey("Role");
                 if (!isContains)
                 {
                     throw (new Exceptions.UnauthorizedException("Not Authenticated With Correctly Role"));
+                }
+
+                string role = headers["Role"].ToString();
+                bool isHaveRole = this.authApplication.IsUserHaveRole(Global.UserId, role);
+                if (!isHaveRole)
+                {
+                    throw (new Exceptions.RoleNotAssignedException());
+                }
+
+                bool isHavePermission = this.authApplication.IsRoleHavePermission(role, permission);
+                if (!isHavePermission)
+                {
+                    throw (new Exceptions.NotAllowedException());
                 }
 
                 return next();

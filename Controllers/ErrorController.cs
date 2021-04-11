@@ -33,6 +33,12 @@ namespace BookApi.Controllers
             {
                 statusCode = HttpStatusCode.Unauthorized;
                 this.HttpContext.Response.StatusCode = 401;
+                return (new ApiResponseError(statusCode, context.Error.Message + ", please change with your role"));
+            }
+            else if (context.Error is RoleNotAssignedException)
+            {
+                statusCode = HttpStatusCode.Unauthorized;
+                this.HttpContext.Response.StatusCode = 401;
                 return (new ApiResponseError(statusCode, context.Error.Message + ", please sign in first"));
             }
             else if (context.Error is TokenNotValidException)

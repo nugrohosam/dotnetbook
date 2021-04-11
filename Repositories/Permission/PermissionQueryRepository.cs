@@ -35,6 +35,19 @@ namespace BookApi.Repositories.Permission
 
             return this.permissionRepository;
         }
+        public PermissionRepository FindByName(string name)
+        {
+            Models.Permission permission = this.context.Permissions.Where(permission => permission.Name == name).FirstOrDefault();
+            if (permission == null)
+            {
+                return (new PermissionRepository());
+            }
+
+            this.permissionRepository.Id = permission.Id;
+            this.permissionRepository.Name = permission.Name;
+
+            return this.permissionRepository;
+        }
         public List<PermissionRepository> Get(string search, int page, int perPage)
         {
             int skip = (1 - page) * perPage;

@@ -25,7 +25,8 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Book
-        [HttpGet(Name = "GetListBook")]
+        [HttpGet(Name = Global.RouteListBook)]
+        [MiddlewareFilter(typeof(AuthorizationRole))]
         public ApiResponse Index([FromQuery] Query query, [FromHeader] Header header)
         {
             if (query.Pagination)
@@ -49,7 +50,7 @@ namespace BookApi.Controllers
         }
 
         // GET: api/Book/5
-        [HttpGet("{id}", Name = "GetBook")]
+        [HttpGet("{id}", Name = Global.RouteDetailBook)]
         public ApiResponse Show(long id)
         {
             BookDetail bookDetail = null;
@@ -63,7 +64,7 @@ namespace BookApi.Controllers
         }
 
         // POST: api/Book
-        [HttpPost]
+        [HttpPost(Name = Global.RouteCreateBook)]
         [Consumes("application/json")]
         public ApiResponse Store(BookCreate bookCreate)
         {
@@ -72,7 +73,7 @@ namespace BookApi.Controllers
         }
 
         // PUT: api/Book/5
-        [HttpPut("{id}")]
+        [HttpPost(Name = Global.RouteUpdateBook)]
         public ApiResponse Update(long id, BookUpdate bookUpdate)
         {
             this.bookApplication.UpdateFromAPI(id, bookUpdate);
@@ -80,7 +81,7 @@ namespace BookApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = Global.RouteDeleteBook)]
         public ApiResponse Delete(int id)
         {
             this.bookApplication.DeleteFromAPI(id);

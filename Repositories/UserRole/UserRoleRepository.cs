@@ -8,6 +8,7 @@ namespace BookApi.Repositories.UserRole
 {
     public class UserRoleRepository
     {
+        public long Id { get; set; }
         public long Userid { get; set; }
         public long Roleid { get; set; }
 
@@ -44,6 +45,7 @@ namespace BookApi.Repositories.UserRole
             {
                 userRolesRepo.Add((new UserRoleRepository()
                 {
+                    Id = userRole.Id,
                     Userid = userRole.Userid,
                     Roleid = userRole.Roleid
                 }));

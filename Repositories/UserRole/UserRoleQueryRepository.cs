@@ -35,6 +35,17 @@ namespace BookApi.Repositories.UserRole
 
             return this.userRoleRepository;
         }
+
+        public List<UserRoleRepository> FindByUserId(long userId = 0)
+        {
+            List<Models.UserRole> userRoles = this.context.UserRoles.Where(userRole => userRole.Userid == userId).ToList();
+            if (userRoles.Count < 1)
+            {
+                return (new List<UserRoleRepository>());
+            }
+
+            return this.userRoleRepository.MapFromModel(userRoles);
+        }
         public List<UserRoleRepository> Get(string search, int page, int perPage)
         {
             int skip = (1 - page) * perPage;

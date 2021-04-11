@@ -35,6 +35,26 @@ namespace BookApi.Repositories.Role
 
             return this.roleRepository;
         }
+
+        public RoleRepository FindByName(string name)
+        {
+            Models.Role role = this.context.Roles.Where(role => role.Name == name).FirstOrDefault();
+            if (role == null)
+            {
+                return (new RoleRepository());
+            }
+
+            this.roleRepository.Id = role.Id;
+            this.roleRepository.Name = role.Name;
+
+            return this.roleRepository;
+        }
+
+        public bool IsExistsByNameAndIds(string nameRole, long[] roleIds)
+        {
+            return this.context.Roles.Where(role => role.Name == nameRole).Where(role => roleIds.Contains(role.Id)).Count() > 0;
+        }
+        
         public List<RoleRepository> Get(string search, int page, int perPage)
         {
             int skip = (1 - page) * perPage;

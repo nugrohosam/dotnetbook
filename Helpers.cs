@@ -32,14 +32,16 @@ namespace BookApi
     }
     public class AuthUtility
     {
-        public static string GenerateJwtToken(string email)
+        public static string GenerateJwtToken(long id)
         {
             IDictionary<string, string> env = DotEnv.Read();
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(env["KEY"]);
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("email", email) }),
+                Subject = new ClaimsIdentity(new[] {
+                    new Claim("id", id.ToString())
+                }),
                 Expires = DateTime.UtcNow.AddYears(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -48,7 +50,7 @@ namespace BookApi
             return tokenHandler.WriteToken(token);
         }
 
-        public static string ValidateJwtToken(string token)
+        public static long ValidateJwtToken(string token)
         {
             IDictionary<string, string> env = DotEnv.Read();
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -65,13 +67,13 @@ namespace BookApi
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                string email = jwtToken.Claims.First(x => x.Type == "email").Value;
+                long id = long.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                return email;
+                return id;
             }
             catch
             {
-                return null;
+                return 0;
             }
         }
     }

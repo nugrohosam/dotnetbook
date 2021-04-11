@@ -19,6 +19,39 @@ namespace BookApi.Exceptions
         {
         }
     }
+    public class NotAllowedException : HttpRequestException
+    {
+        public NotAllowedException() : base("Not Allowed")
+        {
+        }
+
+        public NotAllowedException(string message)
+            : base(message)
+        {
+        }
+
+        public NotAllowedException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+    
+    public class RoleNotAssignedException : HttpRequestException
+    {
+        public RoleNotAssignedException() : base("Role Not Assigned")
+        {
+        }
+
+        public RoleNotAssignedException(string message)
+            : base(message)
+        {
+        }
+
+        public RoleNotAssignedException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
 
     public class TokenNotValidException : HttpRequestException
     {

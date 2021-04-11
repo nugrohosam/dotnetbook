@@ -35,6 +35,25 @@ namespace BookApi.Repositories.RolePermission
 
             return this.rolePermissionRepository;
         }
+
+        public RolePermissionRepository FindByRoleAndPermission(long roleId, long permissionId)
+        {
+            Models.RolePermission rolePermission = this.context.RolePermissions
+                .Where(rolePermission => rolePermission.Roleid == roleId)
+                .Where(rolePermission => rolePermission.Permissionid == permissionId)
+                .FirstOrDefault();
+
+            if (rolePermission == null)
+            {
+                return (new RolePermissionRepository());
+            }
+
+            this.rolePermissionRepository.Id = rolePermission.Id;
+            this.rolePermissionRepository.Permissionid = rolePermission.Permissionid;
+            this.rolePermissionRepository.Roleid = rolePermission.Roleid;
+
+            return this.rolePermissionRepository;
+        }
         public List<RolePermissionRepository> Get(string search, int page, int perPage)
         {
             int skip = (1 - page) * perPage;
