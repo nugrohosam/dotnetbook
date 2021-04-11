@@ -33,14 +33,14 @@ namespace BookApi.Controllers
             {
                 List<RoleRepository> rolesRepo = this.roleApplication.GetList(query.Search, query.Page, query.PerPage);
                 int count = this.roleApplication.Count(query.Search);
-                decimal pageInCount = count / query.PerPage;
+                decimal pageInCount = ((decimal)count) / query.PerPage;
                 PaginationModel paginate = new PaginationModel()
                 {
                     TotalPage = (int)Math.Ceiling(pageInCount),
                     Page = query.Page,
                     PerPage = query.PerPage,
                     Data = RoleItem.MapRepo(rolesRepo),
-                    Total = rolesRepo.Count
+                    Total = count
                 };
 
                 return (new ApiResponsePagination(HttpStatusCode.OK, paginate));

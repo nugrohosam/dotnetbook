@@ -128,14 +128,18 @@ namespace BookApi
         public int PerPage { get; set; }
 
         [DataMember(EmitDefaultValue = true)]
-        public int total { get; set; }
+        public int Total { get; set; }
+        
+        [DataMember(EmitDefaultValue = true)]
+        public int TotalPage { get; set; }
         public ApiResponsePagination(HttpStatusCode statusCode, PaginationModel paginationModel)
         {
             this.StatusCode = (int)statusCode;
             this.items = paginationModel.Data;
             this.Page = paginationModel.Page;
             this.PerPage = paginationModel.PerPage;
-            this.total = paginationModel.Total;
+            this.TotalPage = paginationModel.TotalPage;
+            this.Total = paginationModel.Total;
         }
     }
     public class ApiResponseError : ApiResponse
