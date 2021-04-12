@@ -19,7 +19,7 @@ namespace BookApi.Repositories.UserRole
 
         internal Models.UserRole Find(long id = 0)
         {
-            return this.context.UserRoles.Where(userRole => userRole.Id == id).FirstOrDefault();
+            return this.context.UserRoles.Include("User").Include("Role").Where(userRole => userRole.Id == id).FirstOrDefault();
         }
 
         public UserRoleRepository FindById(long id = 0)
@@ -30,9 +30,12 @@ namespace BookApi.Repositories.UserRole
                 return (new UserRoleRepository());
             }
 
+            this.userRoleRepository.Id = userRole.Id;
             this.userRoleRepository.Userid = userRole.Userid;
             this.userRoleRepository.Roleid = userRole.Roleid;
-
+            this.userRoleRepository.MapToRoleRepo(userRole.Role);
+            this.userRoleRepository.MapToUserRepo(userRole.User);
+            
             return this.userRoleRepository;
         }
 
@@ -46,12 +49,19 @@ namespace BookApi.Repositories.UserRole
 
             return this.userRoleRepository.MapFromModel(userRoles);
         }
-        public List<UserRoleRepository> Get(string search, int page, int perPage)
+
+        public List<UserRoleRepository> Get(int page, int perPage)
         {
             int skip = (1 - page) * perPage;
             List<Models.UserRole> userRoles;
-            userRoles = this.context.UserRoles.Skip(skip).Take(perPage).ToList();
+            IQueryable<Models.UserRole> userQuery = this.context.UserRoles;
+            userRoles = userQuery.Skip(skip).Take(perPage).ToList();
             return this.userRoleRepository.MapFromModel(userRoles);
+        }
+
+        public int CountAll()
+        {
+            return this.context.UserRoles.Count();
         }
     }
 }

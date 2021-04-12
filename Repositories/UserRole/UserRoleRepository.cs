@@ -19,8 +19,8 @@ namespace BookApi.Repositories.UserRole
         {
             this.User = new UserRepository()
             {
-                Name = user.Name,
-                Id = user.Id
+                Id = user.Id,
+                Name = user.Name
             };
         }
 
@@ -28,8 +28,8 @@ namespace BookApi.Repositories.UserRole
         {
             this.Role = new RoleRepository()
             {
-                Name = role.Name,
-                Id = role.Id
+                Id = role.Id,
+                Name = role.Name
             };
         }
 
