@@ -54,12 +54,16 @@ namespace BookApi.Repositories.RolePermission
 
             return this.rolePermissionRepository;
         }
-        public List<RolePermissionRepository> Get(string search, int page, int perPage)
+        public List<RolePermissionRepository> Get(int page, int perPage)
         {
             int skip = (1 - page) * perPage;
             List<Models.RolePermission> rolePermissions;
             rolePermissions = this.context.RolePermissions.Skip(skip).Take(perPage).ToList();
             return this.rolePermissionRepository.MapFromModel(rolePermissions);
+        }
+        public int CountAll()
+        {
+            return this.context.RolePermissions.Count();
         }
     }
 }
