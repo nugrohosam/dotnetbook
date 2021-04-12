@@ -45,6 +45,7 @@ namespace BookApi.Repositories.RolePermission
             {
                 rolePermissionsRepo.Add((new RolePermissionRepository()
                 {
+                    Id = rolePermission.Id,
                     Permissionid = rolePermission.Permissionid,
                     Roleid = rolePermission.Roleid
                 }));

@@ -6,38 +6,38 @@ namespace BookApi.Repositories.Permission
 {
     public class PermissionStoreRepository
     {
-        private PermissionQueryRepository authorQueryRepository;
+        private PermissionQueryRepository permissionQueryRepository;
         private Models.Context context;
 
         public PermissionStoreRepository()
         {
             this.context = new Models.Context();
-            this.authorQueryRepository = new PermissionQueryRepository();
+            this.permissionQueryRepository = new PermissionQueryRepository();
         }
 
-        public void Create(PermissionRepository authorRepository)
+        public void Create(PermissionRepository permissionRepository)
         {
             Models.Permission newPermission = new Models.Permission();
-            newPermission.Name = authorRepository.Name;
+            newPermission.Name = permissionRepository.Name;
             this.save(newPermission);
         }
 
-        public void Update(long id, PermissionRepository authorRepository)
+        public void Update(long id, PermissionRepository permissionRepository)
         {
-            Models.Permission oldPermission = this.authorQueryRepository.Find(id);
+            Models.Permission oldPermission = this.permissionQueryRepository.Find(id);
             if (oldPermission == null)
             {
                 return;
             }
 
-            oldPermission.Name = authorRepository.Name;
+            oldPermission.Name = permissionRepository.Name;
             this.save(oldPermission, true);
         }
 
         public void Delete(long id)
         {
-            Models.Permission author = this.context.Permissions.Where(author => author.Id == id).FirstOrDefault();
-            this.context.Permissions.Remove(author);
+            Models.Permission permission = this.context.Permissions.Where(permission => permission.Id == id).FirstOrDefault();
+            this.context.Permissions.Remove(permission);
             this.context.SaveChanges();
         }
 

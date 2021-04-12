@@ -56,11 +56,6 @@ namespace BookApi.Controllers
         public ApiResponse Show(long id)
         {
             var rolePermissionRepository = this.rolePermissionApplication.DetailById(id);
-            if (rolePermissionRepository.Id == 0)
-            {
-                return null;
-            }
-
             return (new ApiResponseData(HttpStatusCode.OK, (new RolePermissionDetail(rolePermissionRepository))));
         }
 

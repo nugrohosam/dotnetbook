@@ -13,10 +13,10 @@ namespace BookApi.Responses.Role
         {
         }
 
-        public RoleDetail(RoleRepository authorRepository)
+        public RoleDetail(RoleRepository roleRepository)
         {
-            this.Id = authorRepository.Id;
-            this.Name = authorRepository.Name;
+            this.Id = roleRepository.Id;
+            this.Name = roleRepository.Name;
         }
     }
     public class RoleItem
@@ -28,22 +28,22 @@ namespace BookApi.Responses.Role
         {
         }
 
-        public RoleItem(RoleRepository authorRepository)
+        public RoleItem(RoleRepository roleRepository)
         {
-            this.Id = authorRepository.Id;
-            this.Name = authorRepository.Name;
+            this.Id = roleRepository.Id;
+            this.Name = roleRepository.Name;
         }
-        public static List<RoleItem> MapRepo(List<RoleRepository> authorRepositories)
+        public static List<RoleItem> MapRepo(List<RoleRepository> roleRepositories)
         {
             List<RoleItem> Books = new List<RoleItem>();
-            if (authorRepositories == null)
+            if (roleRepositories == null)
             {
                 return (new List<RoleItem>());
             }
 
-            foreach (RoleRepository author in authorRepositories)
+            foreach (RoleRepository role in roleRepositories)
             {
-                Books.Add(new RoleItem(author));
+                Books.Add(new RoleItem(role));
             }
 
             return Books;

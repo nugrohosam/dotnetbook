@@ -13,10 +13,10 @@ namespace BookApi.Responses.User
         {
         }
 
-        public UserDetail(UserRepository authorRepository)
+        public UserDetail(UserRepository userRepository)
         {
-            this.Id = authorRepository.Id;
-            this.Name = authorRepository.Name;
+            this.Id = userRepository.Id;
+            this.Name = userRepository.Name;
         }
     }
     public class UserItem
@@ -28,22 +28,22 @@ namespace BookApi.Responses.User
         {
         }
 
-        public UserItem(UserRepository authorRepository)
+        public UserItem(UserRepository userRepository)
         {
-            this.Id = authorRepository.Id;
-            this.Name = authorRepository.Name;
+            this.Id = userRepository.Id;
+            this.Name = userRepository.Name;
         }
-        public static List<UserItem> MapRepo(List<UserRepository> authorRepositories)
+        public static List<UserItem> MapRepo(List<UserRepository> userRepositories)
         {
             List<UserItem> Books = new List<UserItem>();
-            if (authorRepositories == null)
+            if (userRepositories == null)
             {
                 return (new List<UserItem>());
             }
 
-            foreach (UserRepository author in authorRepositories)
+            foreach (UserRepository user in userRepositories)
             {
-                Books.Add(new UserItem(author));
+                Books.Add(new UserItem(user));
             }
 
             return Books;

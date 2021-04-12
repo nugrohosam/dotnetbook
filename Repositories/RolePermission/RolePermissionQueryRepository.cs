@@ -19,7 +19,7 @@ namespace BookApi.Repositories.RolePermission
 
         internal Models.RolePermission Find(long id = 0)
         {
-            return this.context.RolePermissions.Where(rolePermission => rolePermission.Id == id).FirstOrDefault();
+            return this.context.RolePermissions.Include("Role").Include("Permission").Where(rolePermission => rolePermission.Id == id).FirstOrDefault();
         }
 
         public RolePermissionRepository FindById(long id = 0)
@@ -30,8 +30,11 @@ namespace BookApi.Repositories.RolePermission
                 return (new RolePermissionRepository());
             }
 
+            this.rolePermissionRepository.Id = rolePermission.Id;
             this.rolePermissionRepository.Permissionid = rolePermission.Permissionid;
             this.rolePermissionRepository.Roleid = rolePermission.Roleid;
+            this.rolePermissionRepository.MapToRoleRepo(rolePermission.Role);
+            this.rolePermissionRepository.MapToPermissionRepo(rolePermission.Permission);
 
             return this.rolePermissionRepository;
         }
