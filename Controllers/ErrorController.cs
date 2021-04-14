@@ -41,6 +41,12 @@ namespace BookApi.Controllers
                 this.HttpContext.Response.StatusCode = 401;
                 return (new ApiResponseError(statusCode, context.Error.Message + ", please sign in first"));
             }
+            else if (context.Error is EmailAndPasswordException)
+            {
+                statusCode = HttpStatusCode.Unauthorized;
+                this.HttpContext.Response.StatusCode = 401;
+                return (new ApiResponseError(statusCode, context.Error.Message));
+            }
             else if (context.Error is TokenNotValidException)
             {
                 statusCode = HttpStatusCode.Unauthorized;

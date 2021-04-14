@@ -6,19 +6,19 @@ namespace BookApi.Requests.RolePermission
     public class RolePermissionCreate
     {
         [Required]
-        [ValidationPermission.IsExists("User not found")]
+        [ValidationPermission.IsExists("Permission not found")]
         public long Permissionid { get; set; }
         [Required]
-        [ValidationRole.IsExists("User not found")]
+        [ValidationRole.IsExists("Role not found")]
         public long Roleid { get; set; }
     }
     public class RolePermissionUpdate
     {
         [Required]
-        [ValidationPermission.IsExists("User not found")]
+        [ValidationPermission.IsExists("Permission not found")]
         public long Permissionid { get; set; }
         [Required]
-        [ValidationRole.IsExists("User not found")]
+        [ValidationRole.IsExists("Role not found")]
         public long Roleid { get; set; }
     }
 }

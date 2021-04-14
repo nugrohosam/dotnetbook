@@ -6,7 +6,7 @@ namespace BookApi.Requests.UserRole
     public class UserRoleCreate
     {
         [Required]
-        [ValidationRole.IsExists("User not found")]
+        [ValidationRole.IsExists("Role not found")]
         public long Userid { get; set; }
         [Required]
         [ValidationUser.IsExists("User not found")]
@@ -15,7 +15,7 @@ namespace BookApi.Requests.UserRole
     public class UserRoleUpdate
     {
         [Required]
-        [ValidationRole.IsExists("User not found")]
+        [ValidationRole.IsExists("Role not found")]
         public long Userid { get; set; }
         [Required]
         [ValidationUser.IsExists("User not found")]

@@ -9,6 +9,7 @@ using BookApi.Exceptions;
 using BookApi.Repositories.Auth;
 using System;
 using System.Linq;
+using BC = BCrypt.Net.BCrypt;
 
 namespace BookApi.Applications.Auth
 {
@@ -36,7 +37,11 @@ namespace BookApi.Applications.Auth
             {
                 throw (new DataNotFoundException("Email"));
             }
-
+            else if (!BC.Verify(authSignIn.Password, userRepo.Password))
+            {
+                throw (new EmailAndPasswordException());
+            }
+            
             DateTime expiredAt = DateTime.UtcNow.AddYears(1);
             return new AuthRepository()
             {
@@ -44,6 +49,7 @@ namespace BookApi.Applications.Auth
                 Token = AuthUtility.GenerateJwtToken(userRepo.Id)
             };
         }
+
         public bool ValidateToken(string token)
         {
             long userId = AuthUtility.ValidateJwtToken(token);

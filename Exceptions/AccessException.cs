@@ -53,6 +53,23 @@ namespace BookApi.Exceptions
         }
     }
 
+    public class EmailAndPasswordException : HttpRequestException
+    {
+        public EmailAndPasswordException() : base("Email and Password not match")
+        {
+        }
+
+        public EmailAndPasswordException(string message)
+            : base(message)
+        {
+        }
+
+        public EmailAndPasswordException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
     public class TokenNotValidException : HttpRequestException
     {
         public TokenNotValidException() : base("Not Valid Token")

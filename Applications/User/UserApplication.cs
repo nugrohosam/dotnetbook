@@ -1,6 +1,8 @@
 using BookApi.Requests.User;
+using BookApi.Requests.Auth;
 using BookApi.Repositories.User;
 using System.Collections.Generic;
+using BC = BCrypt.Net.BCrypt;
 
 namespace BookApi.Applications.User
 {
@@ -8,17 +10,21 @@ namespace BookApi.Applications.User
     {
         private UserStoreRepository userStoreRepository;
         private UserQueryRepository userQueryRepository;
-        
+
         public UserApplication()
         {
             this.userStoreRepository = new UserStoreRepository();
             this.userQueryRepository = new UserQueryRepository();
         }
 
-        public void CreateFromAPI(UserCreate userCreate)
+        public void RegisterFromAPI(AuthRegister authRegister)
         {
             UserRepository userRepository = new UserRepository();
-            userRepository.Name = userCreate.Name;
+            
+            userRepository.Name = authRegister.Name;
+            userRepository.Email = authRegister.Email;
+            userRepository.Password = BC.HashPassword(authRegister.Password);
+
             this.userStoreRepository.Create(userRepository);
         }
 
@@ -46,6 +52,11 @@ namespace BookApi.Applications.User
         public void DeleteFromAPI(long id)
         {
             this.userStoreRepository.Delete(id);
+        }
+
+        public UserRepository FindWhere(string column, string data)
+        {
+            return this.userQueryRepository.FindQueryWhere(column, data);
         }
     }
 }

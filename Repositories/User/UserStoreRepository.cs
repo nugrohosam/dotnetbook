@@ -17,7 +17,11 @@ namespace BookApi.Repositories.User
         public void Create(UserRepository userRepository)
         {
             Models.User newUser = new Models.User();
+
             newUser.Name = userRepository.Name;
+            newUser.Email = userRepository.Email;
+            newUser.Password = userRepository.Password;
+            
             this.save(newUser);
         }
 

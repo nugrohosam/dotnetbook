@@ -5,6 +5,7 @@ using BookApi.Responses.Auth;
 using System.Net;
 using BookApi.Middlewares;
 using BookApi.Applications.Auth;
+using BookApi.Applications.User;
 
 namespace BookApi.Controllers
 {
@@ -12,10 +13,12 @@ namespace BookApi.Controllers
     public class AuthController : ControllerBase
     {
         private AuthApplication authApplication;
+        private UserApplication userApplication;
 
         public AuthController()
         {
             this.authApplication = new AuthApplication();
+            this.userApplication = new UserApplication();
         }
 
         // GET: api/Book
@@ -25,12 +28,22 @@ namespace BookApi.Controllers
         public ApiResponse SignIn([FromBody] AuthSignIn authSignIn)
         {
             AuthRepository authRepository = this.authApplication.SignInFromAPI(authSignIn);
-            AuthToken authToken = new AuthToken() {
+            AuthToken authToken = new AuthToken()
+            {
                 Token = authRepository.Token,
                 ExpiredAt = authRepository.ExpiredAt
             };
-            
+
             return (new ApiResponseData(HttpStatusCode.OK, authToken));
+        }
+
+        [Route("api/[controller]/register")]
+        [HttpPost]
+        [Consumes("application/json")]
+        public ApiResponse Register([FromBody] AuthRegister authRegister)
+        {
+            this.userApplication.RegisterFromAPI(authRegister);
+            return (new ApiResponseData(HttpStatusCode.OK, null));
         }
     }
 }

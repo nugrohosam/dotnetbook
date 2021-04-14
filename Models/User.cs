@@ -24,8 +24,9 @@ namespace BookApi.Models
         public string Name { get; set; }
         [Column("email")]
         public string Email { get; set; }
+        [Column("password")]
+        public string Password { get; set; }
 
-        
         private List<UserRole> userRoles;
         public List<UserRole> UserRoles
         {

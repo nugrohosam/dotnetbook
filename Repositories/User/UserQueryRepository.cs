@@ -1,8 +1,8 @@
 using Models = BookApi.Models;
 using System.Linq;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookApi.Repositories.User
 {
@@ -46,6 +46,23 @@ namespace BookApi.Repositories.User
             this.userRepository.Id = user.Id;
             this.userRepository.Name = user.Name;
             this.userRepository.Email = user.Email;
+            this.userRepository.Password = user.Password;
+
+            return this.userRepository;
+        }
+        public UserRepository FindQueryWhere(string column, string data)
+        {
+            string query = $"SELECT * FROM users WHERE {column} = '{data}'";
+            Models.User user = this.context.Users.FromSqlRaw(query).FirstOrDefault();
+            if (user == null)
+            {
+                return (new UserRepository());
+            }
+
+            this.userRepository.Id = user.Id;
+            this.userRepository.Name = user.Name;
+            this.userRepository.Email = user.Email;
+            this.userRepository.Password = user.Password;
 
             return this.userRepository;
         }
