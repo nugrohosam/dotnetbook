@@ -39,11 +39,10 @@ namespace BookApi.Repositories.RolePermission
             return this.rolePermissionRepository;
         }
 
-        public RolePermissionRepository FindByRoleAndPermission(long roleId, long permissionId)
+        public RolePermissionRepository FindByRoleAndPermission(long roleid, long permission)
         {
             Models.RolePermission rolePermission = this.context.RolePermissions
-                .Where(rolePermission => rolePermission.Roleid == roleId)
-                .Where(rolePermission => rolePermission.Permissionid == permissionId)
+                .Where(rolePermission => rolePermission.Roleid == roleid && rolePermission.Permissionid == permission)
                 .FirstOrDefault();
 
             if (rolePermission == null)

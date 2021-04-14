@@ -28,6 +28,11 @@ namespace BookApi.Applications.RolePermission
             return this.rolePermissionQueryRepository.FindById(id);
         }
 
+        public RolePermissionRepository DetailByRolePermission(long roleid, long permissionid)
+        {
+            return this.rolePermissionQueryRepository.FindByRoleAndPermission(roleid, permissionid);
+        }
+
         public List<RolePermissionRepository> GetList(int page, int perPage)
         {
             return this.rolePermissionQueryRepository.Get(page, perPage);
