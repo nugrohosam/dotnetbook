@@ -20,7 +20,7 @@ namespace BookApi.Requests.RolePermission
             ValidationRolePermission.IsExists isRolePermissionExists = new ValidationRolePermission.IsExists(Roleid, Permissionid);
             if (isRolePermissionExists.IsValid())
             {
-                yield return new ValidationResult("Role and Permission is signed", new List<string> { "Userid and Roleid" });
+                yield return new ValidationResult("Role and Permission is signed", new List<string> { "Roleid and Permissionid" });
             }
         }
     }
