@@ -50,5 +50,10 @@ namespace BookApi.Applications.UserRole
         {
             this.userRoleStoreRepository.Delete(id);
         }
+
+        public UserRoleRepository DetailByUserRole(long userid, long roleid)
+        {
+            return this.userRoleQueryRepository.FindByUserAndRole(userid, roleid);
+        }
     }
 }

@@ -35,7 +35,24 @@ namespace BookApi.Repositories.UserRole
             this.userRoleRepository.Roleid = userRole.Roleid;
             this.userRoleRepository.MapToRoleRepo(userRole.Role);
             this.userRoleRepository.MapToUserRepo(userRole.User);
-            
+
+            return this.userRoleRepository;
+        }
+
+        public UserRoleRepository FindByUserAndRole(long userid, long roleid)
+        {
+            Models.UserRole userRole = this.context.UserRoles.Where(userRole => userRole.Userid == userid && userRole.Roleid == roleid).FirstOrDefault();
+            if (userRole == null)
+            {
+                return (new UserRoleRepository());
+            }
+
+            this.userRoleRepository.Id = userRole.Id;
+            this.userRoleRepository.Userid = userRole.Userid;
+            this.userRoleRepository.Roleid = userRole.Roleid;
+            this.userRoleRepository.MapToRoleRepo(userRole.Role);
+            this.userRoleRepository.MapToUserRepo(userRole.User);
+
             return this.userRoleRepository;
         }
 

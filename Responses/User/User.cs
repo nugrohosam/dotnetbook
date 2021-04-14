@@ -8,6 +8,7 @@ namespace BookApi.Responses.User
         public long Id { get; set; }
 
         public string Name { get; set; }
+        public string Email { get; set; }
 
         public UserDetail()
         {
@@ -17,12 +18,14 @@ namespace BookApi.Responses.User
         {
             this.Id = userRepository.Id;
             this.Name = userRepository.Name;
+            this.Email = userRepository.Email;
         }
     }
     public class UserItem
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
 
         public UserItem()
         {
@@ -32,6 +35,7 @@ namespace BookApi.Responses.User
         {
             this.Id = userRepository.Id;
             this.Name = userRepository.Name;
+            this.Email = userRepository.Email;
         }
         public static List<UserItem> MapRepo(List<UserRepository> userRepositories)
         {
@@ -52,7 +56,7 @@ namespace BookApi.Responses.User
     public class UserList
     {
 
-        public List<UserDetail> data { get; set; }
-        public string count { get; set; }
+        public List<UserDetail> Data { get; set; }
+        public string Count { get; set; }
     }
 }
