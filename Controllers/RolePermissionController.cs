@@ -70,7 +70,7 @@ namespace BookApi.Controllers
 
         // PUT: api/RolePermission/5
         [HttpPut("{id}", Name = "UpdateRolePermission" + Global.SeparatorRoutePermission + Global.UpdateRolePermission)]
-        [MiddlewareFilter(typeof(DefineRouteValues))]
+        [MiddlewareFilter(typeof(DefineRouteValuesGlobaly))]
         public ApiResponse Update(long id, RolePermissionUpdate rolePermissionUpdate)
         {
             this.rolePermissionApplication.UpdateFromAPI(id, rolePermissionUpdate);

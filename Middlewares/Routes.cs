@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace BookApi.Middlewares
 {
-    public class DefineRouteValues
+    public class DefineRouteValuesGlobaly
     {
         public void Configure(IApplicationBuilder app)
         {
