@@ -3,7 +3,6 @@ using BookApi.Requests.Auth;
 using BookApi.Repositories.Auth;
 using BookApi.Responses.Auth;
 using System.Net;
-using BookApi.Middlewares;
 using BookApi.Applications.Auth;
 using BookApi.Applications.User;
 
@@ -25,7 +24,7 @@ namespace BookApi.Controllers
         [Route("api/[controller]/sign-in")]
         [HttpPost]
         [Consumes("application/json")]
-        public ApiResponse SignIn([FromBody] AuthSignIn authSignIn)
+        public ApiResponse SignIn( AuthSignIn authSignIn)
         {
             AuthRepository authRepository = this.authApplication.SignInFromAPI(authSignIn);
             AuthToken authToken = new AuthToken()
@@ -40,7 +39,7 @@ namespace BookApi.Controllers
         [Route("api/[controller]/register")]
         [HttpPost]
         [Consumes("application/json")]
-        public ApiResponse Register([FromBody] AuthRegister authRegister)
+        public ApiResponse Register( AuthRegister authRegister)
         {
             this.userApplication.RegisterFromAPI(authRegister);
             return (new ApiResponseData(HttpStatusCode.OK, null));

@@ -1,4 +1,4 @@
-using System;
+using Microsoft.AspNetCore.Routing;
 
 namespace BookApi
 {
@@ -6,6 +6,7 @@ namespace BookApi
     {
         // Role
 
+        public static RouteValueDictionary RouteValues { get; set; }
         public static long UserId { get; set; }
         public static string localization = "ID";
 

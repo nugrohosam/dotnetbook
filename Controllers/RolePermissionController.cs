@@ -62,16 +62,19 @@ namespace BookApi.Controllers
         // POST: api/RolePermission
         [HttpPost(Name = "CreateRolePermission" + Global.SeparatorRoutePermission + Global.CreateRolePermission)]
         [Consumes("application/json")]
-        public void Store(RolePermissionCreate rolePermissionCreate)
+        public ApiResponse Store(RolePermissionCreate rolePermissionCreate)
         {
             this.rolePermissionApplication.CreateFromAPI(rolePermissionCreate);
+            return (new ApiResponseData(HttpStatusCode.OK, null));
         }
 
         // PUT: api/RolePermission/5
         [HttpPut("{id}", Name = "UpdateRolePermission" + Global.SeparatorRoutePermission + Global.UpdateRolePermission)]
-        public void Update(long id, RolePermissionUpdate rolePermissionUpdate)
+        [MiddlewareFilter(typeof(DefineRouteValues))]
+        public ApiResponse Update(long id, RolePermissionUpdate rolePermissionUpdate)
         {
             this.rolePermissionApplication.UpdateFromAPI(id, rolePermissionUpdate);
+            return (new ApiResponseData(HttpStatusCode.OK, null));
         }
 
         // DELETE: api/ApiWithActions/5
